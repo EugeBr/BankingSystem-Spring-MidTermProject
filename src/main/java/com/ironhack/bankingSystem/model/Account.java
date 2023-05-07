@@ -1,15 +1,13 @@
 package com.ironhack.bankingSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @DynamicUpdate
@@ -21,12 +19,23 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private BigDecimal balance;
-    private AccountHolder primaryOwner;     //? one-to-one
-    private AccountHolder secondaryOwner;   //? one-to-one
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "primary_owner_id")
+    private AccountHolder primaryOwner;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "secondary_owner_id")
+    private AccountHolder secondaryOwner;     //! optional
     private Double penaltyFee;
+    private LocalDate creationDate = LocalDate.now();
 
     public Account(BigDecimal balance, AccountHolder primaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
+    }
+
+    public Account(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
     }
 }

@@ -24,7 +24,7 @@ public class AccountHolder {
     private Address primaryAddress;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mailing_address_id")
-    private String mailingAddress;
+    private String mailingAddress;      //!optional
 
     public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress) {
         this.name = name;
