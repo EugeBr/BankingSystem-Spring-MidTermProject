@@ -26,6 +26,10 @@ public class CreditCard extends Account{
     @PastOrPresent
     private LocalDate lastInterestDate = LocalDate.now();
 
+    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy) {
+        super(balance, primaryOwner, createdBy);
+    }
+
     public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, BigDecimal creditLimit) {
         super(balance, primaryOwner, createdBy);
         this.creditLimit = creditLimit;
@@ -57,4 +61,12 @@ public class CreditCard extends Account{
         this.interestRate = interestRate;
     }
 
+    @Override
+    public String toString() {
+        return "CreditCard{" +
+                "creditLimit=" + creditLimit +
+                ", interestRate=" + interestRate +
+                ", lastInterestDate=" + lastInterestDate +
+                "} " + super.toString();
+    }
 }

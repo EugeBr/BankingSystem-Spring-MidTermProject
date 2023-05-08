@@ -24,8 +24,7 @@ public class Checking extends Account{
     @NotEmpty
     private String secretKey;
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
-    private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal(12.0);
-    @NotEmpty
+    private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -41,4 +40,11 @@ public class Checking extends Account{
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Checking{" +
+                "secretKey='" + secretKey + '\'' +
+                ", status=" + status +
+                "} " + super.toString();
+    }
 }
