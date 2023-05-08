@@ -21,12 +21,11 @@ public class AccountHolder {
     private Integer id;
     @NotEmpty
     private String name;
-    @NotEmpty
+//    @NotEmpty
     @Past
     private LocalDate dateOfBirth;
-    @NotEmpty
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "primary_address_id")
+    @JoinColumn(name = "primary_address_id", nullable = false)
     private Address primaryAddress;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mailing_address_id")
