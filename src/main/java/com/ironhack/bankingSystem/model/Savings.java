@@ -27,7 +27,6 @@ public class Savings extends Account{
     private String secretKey;
     @DecimalMin("100")
     private BigDecimal minimumBalance = new BigDecimal(1000);
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Status status;
     @DecimalMax("0.5")
@@ -91,4 +90,14 @@ public class Savings extends Account{
         this.interestRate = interestRate;
     }
 
+    @Override
+    public String toString() {
+        return "Savings{" +
+                "secretKey='" + secretKey + '\'' +
+                ", minimumBalance=" + minimumBalance +
+                ", status=" + status +
+                ", interestRate=" + interestRate +
+                ", lastInterestDate=" + lastInterestDate +
+                "} " + super.toString();
+    }
 }
