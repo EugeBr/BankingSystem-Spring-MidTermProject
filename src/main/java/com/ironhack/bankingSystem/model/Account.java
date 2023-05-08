@@ -23,6 +23,7 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotEmpty
+    @Embedded
     private Money balance;
     @NotEmpty
     @ManyToOne(cascade = CascadeType.ALL)

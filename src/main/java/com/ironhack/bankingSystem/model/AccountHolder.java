@@ -30,11 +30,18 @@ public class AccountHolder {
     private Address primaryAddress;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mailing_address_id")
-    private String mailingAddress;
+    private Address mailingAddress;
 
     public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
+    }
+
+    public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.primaryAddress = primaryAddress;
+        this.mailingAddress = mailingAddress;
     }
 }
