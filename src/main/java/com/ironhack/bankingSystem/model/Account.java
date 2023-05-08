@@ -1,6 +1,9 @@
 package com.ironhack.bankingSystem.model;
 
+import com.ironhack.bankingSystem.classes.Money;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @DynamicUpdate
 @Data
 @NoArgsConstructor
@@ -18,24 +22,46 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private BigDecimal balance;
-    @OneToOne(cascade = CascadeType.ALL)
+    @NotEmpty
+    private Money balance;
+    @NotEmpty
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "primary_owner_id")
     private AccountHolder primaryOwner;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "secondary_owner_id")
-    private AccountHolder secondaryOwner;     //! optional
-    private Double penaltyFee;
+    private AccountHolder secondaryOwner;
+    private final BigDecimal PENALTY_FEE = new BigDecimal(40);
+    @PastOrPresent
     private LocalDate creationDate = LocalDate.now();
+    @NotEmpty
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "admin_id")
+    private Admin createdBy;
 
-    public Account(BigDecimal balance, AccountHolder primaryOwner) {
+    public Account(Money balance, AccountHolder primaryOwner, Admin createdBy) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
+        this.createdBy = createdBy;
     }
 
-    public Account(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
+        this.createdBy = createdBy;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", primaryOwner=" + primaryOwner.getName() +
+                ", secondaryOwner=" + secondaryOwner.getName() +
+                ", creationDate=" + creationDate +
+                ", createdBy=" + createdBy.getName() +
+                '}';
+    }
+
 }
