@@ -1,6 +1,7 @@
 package com.ironhack.bankingSystem.classes;
 
 import jakarta.persistence.Embeddable;
+import lombok.NoArgsConstructor;
 
 import java.math.RoundingMode;
 import java.math.BigDecimal;
@@ -12,8 +13,11 @@ public class Money {
     private static final Currency USD = Currency.getInstance("USD");
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
-    private final Currency currency;
+    private Currency currency;      //! le quite final para poder poner constructor vacio
     private BigDecimal amount;
+
+    public Money() {
+    }
 
     /**
      * Class constructor specifying amount, currency, and rounding

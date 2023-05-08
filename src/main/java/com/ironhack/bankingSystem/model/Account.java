@@ -22,12 +22,10 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty
     @Embedded
     private Money balance;
-    @NotEmpty
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "primary_owner_id")
+    @JoinColumn(name = "primary_owner_id", nullable = false)
     private AccountHolder primaryOwner;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "secondary_owner_id")
@@ -35,9 +33,8 @@ public abstract class Account {
     private final BigDecimal PENALTY_FEE = new BigDecimal(40);
     @PastOrPresent
     private LocalDate creationDate = LocalDate.now();
-    @NotEmpty
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "admin_id", nullable = false)
     private Admin createdBy;
 
     public Account(Money balance, AccountHolder primaryOwner, Admin createdBy) {
@@ -58,8 +55,8 @@ public abstract class Account {
         return "Account{" +
                 "id=" + id +
                 ", balance=" + balance +
-                ", primaryOwner=" + primaryOwner.getName() +
-                ", secondaryOwner=" + secondaryOwner.getName() +
+                ", primaryOwner=" + primaryOwner +
+                ", secondaryOwner=" + secondaryOwner +
                 ", creationDate=" + creationDate +
                 ", createdBy=" + createdBy.getName() +
                 '}';

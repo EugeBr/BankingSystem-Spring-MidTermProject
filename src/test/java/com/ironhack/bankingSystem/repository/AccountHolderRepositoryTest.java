@@ -22,6 +22,9 @@ class AccountHolderRepositoryTest {
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
+    @Autowired
+    AddressRepository addressRepository;
+
     @BeforeEach
     public void setUp() {
         Address address1 = new Address("Calle Falsa", "123");
@@ -38,6 +41,7 @@ class AccountHolderRepositoryTest {
     @AfterEach
     public void tearDown() {
         accountHolderRepository.deleteAll();
+        addressRepository.deleteAll();
     }
 
     @Test
