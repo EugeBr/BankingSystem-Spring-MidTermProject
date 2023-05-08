@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class StudentChecking extends Account{
     @NotEmpty
     private String secretKey;
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Status status;
 
