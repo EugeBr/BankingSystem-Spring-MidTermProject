@@ -49,9 +49,9 @@ class CreditCardRepositoryTest {
 
     @Test
     public void findAll_checking_checkingList() {
-        List<CreditCard> checkingList = creditCardRepository.findAll();
-        System.out.println(checkingList);
-        assertEquals(1, checkingList.size());
+        List<CreditCard> creditCardList = creditCardRepository.findAll();
+        System.out.println(creditCardList);
+        assertEquals(1, creditCardList.size());
     }
 
     @Test

@@ -17,7 +17,7 @@ public class ThirdPartyUser {
     private String hashedKey;
     @NotEmpty
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin addedBy;
 

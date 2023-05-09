@@ -24,16 +24,16 @@ public abstract class Account {
     private Integer id;
     @Embedded
     private Money balance;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "primary_owner_id", nullable = false)
     private AccountHolder primaryOwner;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "secondary_owner_id")
     private AccountHolder secondaryOwner;
     private final BigDecimal PENALTY_FEE = new BigDecimal(40);
     @PastOrPresent
     private LocalDate creationDate = LocalDate.now();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin createdBy;
 

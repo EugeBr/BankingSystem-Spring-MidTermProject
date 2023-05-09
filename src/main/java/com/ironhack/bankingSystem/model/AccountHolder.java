@@ -24,10 +24,10 @@ public class AccountHolder {
 //    @NotEmpty
     @Past
     private LocalDate dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "primary_address_id", nullable = false)
     private Address primaryAddress;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "mailing_address_id")
     private Address mailingAddress;
 
