@@ -70,7 +70,7 @@ class SavingsRepositoryTest {
     }
 
     @Test
-    public void checkMinimumBalance_checking_applyFee() {
+    public void checkMinimumBalance_savings_applyFee() {
         Optional<Savings> savingsOptional = savingsRepository.findById(1);
         System.out.println(savingsOptional.get());
         savingsOptional.get().setBalance(new Money(new BigDecimal(200)));
@@ -78,6 +78,22 @@ class SavingsRepositoryTest {
         savingsOptional.get().checkMinimumBalance();
         System.out.println(savingsOptional.get());
         BigDecimal value = new BigDecimal("160.00");
+
+        assertEquals(value, savingsOptional.get().getBalance().getAmount());
+    }
+
+    @Test
+    public void checkInterest_savings_updatedBalance() {
+        Optional<Savings> savingsOptional = savingsRepository.findById(1);
+        System.out.println(savingsOptional.get());
+        LocalDate date = LocalDate.of(2022, 4, 1);
+        savingsOptional.get().setLastInterestDate(date);
+        savingsRepository.save(savingsOptional.get());
+        System.out.println(savingsOptional.get());
+
+        savingsOptional.get().checkInterest();
+        System.out.println(savingsOptional.get());
+        BigDecimal value = new BigDecimal("1002.50");
 
         assertEquals(value, savingsOptional.get().getBalance().getAmount());
     }

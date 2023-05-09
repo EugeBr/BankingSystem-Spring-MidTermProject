@@ -61,6 +61,18 @@ public class CreditCard extends Account{
         this.interestRate = interestRate;
     }
 
+    //check if it's time to take interests
+    public void checkInterest() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDateMinus30Days = currentDate.minusDays(30);
+        if(lastInterestDate.isBefore(currentDateMinus30Days)) {
+            BigDecimal balanceByInterestRate = new BigDecimal(String.valueOf(super.getBalance().getAmount().multiply(new BigDecimal(interestRate))));
+            Money newBalance = new Money(super.getBalance().decreaseAmount(balanceByInterestRate));
+            super.setBalance(newBalance);
+            setLastInterestDate(currentDate);
+        }
+    }
+
     @Override
     public String toString() {
         return "CreditCard{" +

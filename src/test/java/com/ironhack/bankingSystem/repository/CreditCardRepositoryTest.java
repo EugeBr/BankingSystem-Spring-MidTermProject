@@ -1,10 +1,7 @@
 package com.ironhack.bankingSystem.repository;
 
 import com.ironhack.bankingSystem.classes.Money;
-import com.ironhack.bankingSystem.model.AccountHolder;
-import com.ironhack.bankingSystem.model.Address;
-import com.ironhack.bankingSystem.model.Admin;
-import com.ironhack.bankingSystem.model.CreditCard;
+import com.ironhack.bankingSystem.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,6 +66,22 @@ class CreditCardRepositoryTest {
     public void findById_invalidId_creditCardNotPresent() {
         Optional<CreditCard> creditCardOptional = creditCardRepository.findById(999);
         assertTrue(creditCardOptional.isEmpty());
+    }
+
+    @Test
+    public void checkInterest_creditCard_updatedBalance() {
+        Optional<CreditCard> creditCardOptional = creditCardRepository.findById(1);
+        System.out.println(creditCardOptional.get());
+        LocalDate date = LocalDate.of(2023, 4, 1);
+        creditCardOptional.get().setLastInterestDate(date);
+        creditCardRepository.save(creditCardOptional.get());
+        System.out.println(creditCardOptional.get());
+
+        creditCardOptional.get().checkInterest();
+        System.out.println(creditCardOptional.get());
+        BigDecimal value = new BigDecimal("1600.00");
+
+        assertEquals(value, creditCardOptional.get().getBalance().getAmount());
     }
 
 }

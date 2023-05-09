@@ -97,6 +97,18 @@ public class Savings extends Account{
         }
     }
 
+    //check if it's time to add interests
+    public void checkInterest() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDateMinus1Year = currentDate.minusYears(1);
+        if(lastInterestDate.isBefore(currentDateMinus1Year)) {
+            BigDecimal balanceByInterestRate = new BigDecimal(String.valueOf(super.getBalance().getAmount().multiply(new BigDecimal(interestRate))));
+            Money newBalance = new Money(super.getBalance().increaseAmount(balanceByInterestRate));
+            super.setBalance(newBalance);
+            setLastInterestDate(currentDate);
+        }
+    }
+
     @Override
     public String toString() {
         return "Savings{" +
