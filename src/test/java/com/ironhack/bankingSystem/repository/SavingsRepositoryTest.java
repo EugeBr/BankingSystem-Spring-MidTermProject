@@ -69,4 +69,17 @@ class SavingsRepositoryTest {
         assertTrue(savingsOptional.isEmpty());
     }
 
+    @Test
+    public void checkMinimumBalance_checking_applyFee() {
+        Optional<Savings> savingsOptional = savingsRepository.findById(1);
+        System.out.println(savingsOptional.get());
+        savingsOptional.get().setBalance(new Money(new BigDecimal(200)));
+        savingsRepository.save(savingsOptional.get());
+        savingsOptional.get().checkMinimumBalance();
+        System.out.println(savingsOptional.get());
+        BigDecimal value = new BigDecimal("160.00");
+
+        assertEquals(value, savingsOptional.get().getBalance().getAmount());
+    }
+
 }

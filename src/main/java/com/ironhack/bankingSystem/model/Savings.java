@@ -90,6 +90,13 @@ public class Savings extends Account{
         this.interestRate = interestRate;
     }
 
+    //check if balance is lower that minimum balance
+    public void checkMinimumBalance() {
+        if(getMinimumBalance().compareTo(getBalance().getAmount()) == 1) {
+            super.applyPenaltyFee();
+        }
+    }
+
     @Override
     public String toString() {
         return "Savings{" +

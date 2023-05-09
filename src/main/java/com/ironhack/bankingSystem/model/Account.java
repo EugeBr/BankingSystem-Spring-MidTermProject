@@ -50,6 +50,11 @@ public abstract class Account {
         this.createdBy = createdBy;
     }
 
+    public void applyPenaltyFee() {
+        Money newBalance = new Money(getBalance().decreaseAmount(PENALTY_FEE));
+        setBalance(newBalance);
+    };
+
     @Override
     public String toString() {
         return "Account{" +

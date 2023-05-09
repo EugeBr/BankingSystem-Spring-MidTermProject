@@ -1,5 +1,6 @@
 package com.ironhack.bankingSystem.repository;
 
+import com.ironhack.bankingSystem.model.Admin;
 import com.ironhack.bankingSystem.model.ThirdPartyUser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,17 +19,22 @@ class ThirdPartyUserRepositoryTest {
     @Autowired
     ThirdPartyUserRepository thirdPartyUserrepository;
 
+    @Autowired
+    AdminRepository adminRepository;
+
     @BeforeEach
     public void setUp() {
-        ThirdPartyUser thirdParty1 = new ThirdPartyUser("KJ8754E", "Lisa J. Dudley");
+        Admin admin = new Admin("John Perez");
+        ThirdPartyUser thirdParty1 = new ThirdPartyUser("KJ8754E", "Lisa J. Dudley", admin);
         thirdPartyUserrepository.save(thirdParty1);
-        ThirdPartyUser thirdParty2 = new ThirdPartyUser("HG6588E", "Michael G. Pearson");
+        ThirdPartyUser thirdParty2 = new ThirdPartyUser("HG6588E", "Michael G. Pearson", admin);
         thirdPartyUserrepository.save(thirdParty2);
     }
 
     @AfterEach
     public void tearDown() {
         thirdPartyUserrepository.deleteAll();
+        adminRepository.deleteAll();
     }
 
     @Test
