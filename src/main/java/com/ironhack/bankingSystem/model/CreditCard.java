@@ -63,6 +63,7 @@ public class CreditCard extends Account{
     }
 
     //check if it's time to take interests
+    @Override
     public void checkInterest() {
         LocalDate currentDate = LocalDate.now();
         LocalDate currentDateMinus30Days = currentDate.minusDays(30);

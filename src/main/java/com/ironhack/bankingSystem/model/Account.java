@@ -55,6 +55,18 @@ public abstract class Account {
         setBalance(newBalance);
     };
 
+    public void checkMinimumBalance() {
+        System.out.println("Nothing to do here");
+    };
+
+    public void checkMonthlyFee() {
+        System.out.println("Nothing to do here");
+    };
+
+    public void checkInterest() {
+        System.out.println("Nothing to do here");
+    };
+
     @Override
     public String toString() {
         return "Account{" +

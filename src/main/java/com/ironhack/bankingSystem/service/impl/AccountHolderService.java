@@ -1,5 +1,8 @@
 package com.ironhack.bankingSystem.service.impl;
 
+import com.ironhack.bankingSystem.classes.Money;
+import com.ironhack.bankingSystem.classes.TransferRequest;
+import com.ironhack.bankingSystem.classes.TransferResponse;
 import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +67,30 @@ public class AccountHolderService implements IAccountHolderService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + accountId + " doesn't exist or belongs to another user");
         }
         return accountOptional.get();
+    }
+
+    @Override
+    public TransferResponse transferFunds(Integer id, TransferRequest transferRequest) {
+        List<Account> accountList = getAllAccountHoldersAccounts(id);
+        Optional<Account> sendersAccount = accountRepository.findById(transferRequest.getAccountId());
+        Optional<Account> recipientsAccount = accountRepository.findById(transferRequest.getRecipientAccountId());
+        if(sendersAccount.isEmpty() || !accountList.contains(sendersAccount.get()) ) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + transferRequest.getAccountId() + " doesn't exist or belongs to another user");
+        }else if(sendersAccount.get().getBalance().getAmount().compareTo(transferRequest.getAmount()) < 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account" + transferRequest.getAccountId() + " doesn't have sufficient funds for this transaction");
+        }else if(recipientsAccount.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipient account " + transferRequest.getRecipientAccountId() + " not found");
+        }
+        Money newSendersBalance = new Money(sendersAccount.get().getBalance().decreaseAmount(transferRequest.getAmount()));
+        sendersAccount.get().setBalance(newSendersBalance);
+        accountRepository.save(sendersAccount.get());
+        sendersAccount.get().checkMinimumBalance();
+
+        Money newRecipientBalance = new Money(recipientsAccount.get().getBalance().increaseAmount(transferRequest.getAmount()));
+        recipientsAccount.get().setBalance(newRecipientBalance);
+        accountRepository.save(recipientsAccount.get());
+
+        return new TransferResponse("Funds transferred successfully"); //! not printing in response
     }
 
 

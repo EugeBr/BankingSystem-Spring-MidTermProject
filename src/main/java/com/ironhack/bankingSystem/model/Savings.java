@@ -92,6 +92,7 @@ public class Savings extends Account{
     }
 
     //check if balance is lower that minimum balance
+    @Override
     public void checkMinimumBalance() {
         if(getMinimumBalance().compareTo(getBalance().getAmount()) == 1) {
             super.applyPenaltyFee();
@@ -99,6 +100,7 @@ public class Savings extends Account{
     }
 
     //check if it's time to add interests
+    @Override
     public void checkInterest() {
         LocalDate currentDate = LocalDate.now();
         LocalDate currentDateMinus1Year = currentDate.minusYears(1);

@@ -1,5 +1,7 @@
 package com.ironhack.bankingSystem.controller.impl;
 
+import com.ironhack.bankingSystem.classes.TransferRequest;
+import com.ironhack.bankingSystem.classes.TransferResponse;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/account-holders")
@@ -27,4 +28,14 @@ public class AccountHolderController {
     public Account getAccountById(@PathVariable Integer id, @RequestParam Integer accountId) {
         return accountHolderService.getAccountById(id, accountId);
     }
+
+    @PostMapping("/{id}/transfer")
+    @ResponseStatus(HttpStatus.OK)
+    public TransferResponse transferFunds(
+            @PathVariable Integer id,
+            @RequestBody TransferRequest transferRequest
+    ) {
+        return accountHolderService.transferFunds(id, transferRequest);
+    }
+
 }

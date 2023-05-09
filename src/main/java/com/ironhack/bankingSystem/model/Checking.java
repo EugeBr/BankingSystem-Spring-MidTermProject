@@ -46,6 +46,7 @@ public class Checking extends Account{
     }
 
     //check if balance is lower that minimum balance
+    @Override
     public void checkMinimumBalance() {
         if(getMINIMUM_BALANCE().compareTo(getBalance().getAmount()) == 1) {
             super.applyPenaltyFee();
@@ -53,6 +54,7 @@ public class Checking extends Account{
     }
 
     //check if it's time for monthly fee
+    @Override
     public void checkMonthlyFee() {
         LocalDate currentDate = LocalDate.now();
         LocalDate currentDateMinus30Days = currentDate.minusDays(30);
