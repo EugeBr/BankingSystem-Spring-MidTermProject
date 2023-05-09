@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Checking extends Account{
+    private final String TYPE = "CHECKING ACCOUNT";
     @NotEmpty
     private String secretKey;
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);

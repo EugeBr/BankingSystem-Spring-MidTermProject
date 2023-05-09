@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreditCard extends Account{
+    private final String TYPE = "CREDIT CARD";
     @DecimalMax("100000")
     private BigDecimal creditLimit = new BigDecimal(100);
     @DecimalMin("0.1")

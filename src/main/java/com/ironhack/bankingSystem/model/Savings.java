@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Savings extends Account{
+    private final String TYPE = "SAVINGS ACCOUNT";
     @NotEmpty
     private String secretKey;
     @DecimalMin("100")

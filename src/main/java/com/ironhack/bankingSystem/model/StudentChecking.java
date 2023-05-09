@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentChecking extends Account{
+    private final String TYPE = "STUDENT CHECKING ACCOUNT";
     @NotEmpty
     private String secretKey;
     @Enumerated(EnumType.STRING)
