@@ -1,9 +1,7 @@
 package com.ironhack.bankingSystem.service.impl;
 
 import com.ironhack.bankingSystem.classes.ResponseMessage;
-import com.ironhack.bankingSystem.model.Account;
-import com.ironhack.bankingSystem.model.Checking;
-import com.ironhack.bankingSystem.model.StudentChecking;
+import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +47,29 @@ public class AdminService implements IAdminService {
         Optional<Checking> checkingOptional = checkingRepository.findBySecretKey(checking.getSecretKey());
         Period period = Period.between(checking.getPrimaryOwner().getDateOfBirth(), LocalDate.now());
         if (checkingOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This Account already exist");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This account already exist");
         } else if (period.getYears() < 24) {
             StudentChecking studentAccount = new StudentChecking(checking);
             studentCheckingRepository.save(studentAccount);
-          //?  checkingRepository.delete(checking);
             return new ResponseMessage("Student Checking account successfully created");
         }
         checkingRepository.save(checking);
         return new ResponseMessage("Checking account successfully created");
+    }
+
+    @Override
+    public ResponseMessage saveSavingsAccount(Savings savings) {
+        Optional<Savings> savingsOptional = savingsRepository.findBySecretKey(savings.getSecretKey());
+        if (savingsOptional.isPresent()) {throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This account already exist");}
+        savingsRepository.save(savings);
+        return new ResponseMessage("Savings account successfully created");
+    }
+
+    // users can have as many credit cards as they want
+    // not checking for existence because id is auto-generated
+    @Override
+    public ResponseMessage saveCreditCardAccount(CreditCard creditCard) {
+        creditCardRepository.save(creditCard);
+        return new ResponseMessage("Credit Card account successfully created");
     }
 }

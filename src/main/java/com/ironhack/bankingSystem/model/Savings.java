@@ -24,15 +24,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Savings extends Account{
     private final String TYPE = "SAVINGS ACCOUNT";
-    @NotEmpty
+    @NotEmpty(message = "SecretKey can't be empty")
     private String secretKey;
-    @DecimalMin("100")
+    @DecimalMin(value = "100", message = "Minimum balance can't be lower than US$ 1000")
     private BigDecimal minimumBalance = new BigDecimal(1000);
     @Enumerated(EnumType.STRING)
     private Status status;
-    @DecimalMax("0.5")
+    @DecimalMax(value = "0.5", message = "Interest rate can't exceed 0.5")
     private Double interestRate = 0.0025;
-    @PastOrPresent
+    @PastOrPresent(message = "Last interest date can't be in the future")
     private LocalDate lastInterestDate = LocalDate.now();
 
     public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {

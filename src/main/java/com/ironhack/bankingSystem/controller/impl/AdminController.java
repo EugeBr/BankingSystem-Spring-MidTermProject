@@ -4,6 +4,8 @@ import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.controller.interfaces.IAdminController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.model.Checking;
+import com.ironhack.bankingSystem.model.CreditCard;
+import com.ironhack.bankingSystem.model.Savings;
 import com.ironhack.bankingSystem.repository.AccountRepository;
 import com.ironhack.bankingSystem.service.impl.AdminService;
 import jakarta.validation.Valid;
@@ -39,5 +41,17 @@ public class AdminController implements IAdminController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMessage saveCheckingAccount(@RequestBody @Valid Checking checking) {
         return adminService.saveCheckingAccount(checking);
+    }
+
+    @PostMapping("/accounts/savings")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage saveSavingsAccount(@RequestBody @Valid Savings savings) {
+        return adminService.saveSavingsAccount(savings);
+    }
+
+    @PostMapping("/accounts/credit-card")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage saveCreditCardAccount(@RequestBody @Valid CreditCard creditCard) {
+        return adminService.saveCreditCardAccount(creditCard);
     }
 }
