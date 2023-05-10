@@ -33,4 +33,11 @@ public class StudentChecking extends Account{
         this.secretKey = secretKey;
         this.status = status;
     }
+
+    // constructor that takes a Checking account and transforms it into a StudentChecking account
+    public StudentChecking(Checking checking) {
+        super(checking.getBalance(), checking.getPrimaryOwner(), checking.getSecondaryOwner(), checking.getCreatedBy());
+        this.secretKey = checking.getSecretKey();
+        this.status = checking.getStatus();
+    }
 }

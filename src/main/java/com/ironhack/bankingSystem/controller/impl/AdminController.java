@@ -1,9 +1,12 @@
 package com.ironhack.bankingSystem.controller.impl;
 
+import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.controller.interfaces.IAdminController;
 import com.ironhack.bankingSystem.model.Account;
+import com.ironhack.bankingSystem.model.Checking;
 import com.ironhack.bankingSystem.repository.AccountRepository;
 import com.ironhack.bankingSystem.service.impl.AdminService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +33,11 @@ public class AdminController implements IAdminController {
     @ResponseStatus(HttpStatus.OK)
     public Account getAccountById(@PathVariable Integer id) {
         return adminService.getAccountById(id);
+    }
+
+    @PostMapping("/accounts/checking")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage saveCheckingAccount(@RequestBody @Valid Checking checking) {
+        return adminService.saveCheckingAccount(checking);
     }
 }

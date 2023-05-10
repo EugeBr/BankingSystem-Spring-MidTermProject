@@ -1,7 +1,7 @@
 package com.ironhack.bankingSystem.controller.impl;
 
 import com.ironhack.bankingSystem.classes.TransferRequest;
-import com.ironhack.bankingSystem.classes.TransferResponse;
+import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.controller.interfaces.IAccountHolderController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
@@ -32,7 +32,7 @@ public class AccountHolderController implements IAccountHolderController {
 
     @PostMapping("/{id}/transfer")
     @ResponseStatus(HttpStatus.OK)
-    public TransferResponse transferFunds(
+    public ResponseMessage transferFunds(
             @PathVariable Integer id,
             @RequestBody TransferRequest transferRequest
     ) {

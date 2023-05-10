@@ -2,7 +2,7 @@ package com.ironhack.bankingSystem.service.impl;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.classes.TransferRequest;
-import com.ironhack.bankingSystem.classes.TransferResponse;
+import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
@@ -65,11 +65,14 @@ public class AccountHolderService implements IAccountHolderService {
         if(accountOptional.isEmpty() || !accountList.contains(accountOptional.get()) ) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + accountId + " doesn't exist or belongs to another user");
         }
+        accountOptional.get().checkMinimumBalance();
+        accountOptional.get().checkMonthlyFee();
+        accountOptional.get().checkInterest();
         return accountOptional.get();
     }
 
     @Override
-    public TransferResponse transferFunds(Integer id, TransferRequest transferRequest) {
+    public ResponseMessage transferFunds(Integer id, TransferRequest transferRequest) {
         List<Account> accountList = getAllAccountHoldersAccounts(id);
         Optional<Account> sendersAccount = accountRepository.findById(transferRequest.getAccountId());
         Optional<Account> recipientsAccount = accountRepository.findById(transferRequest.getRecipientAccountId());
@@ -89,7 +92,7 @@ public class AccountHolderService implements IAccountHolderService {
         recipientsAccount.get().setBalance(newRecipientBalance);
         accountRepository.save(recipientsAccount.get());
 
-        return new TransferResponse("Funds transferred successfully");
+        return new ResponseMessage("Funds transferred successfully");
     }
 
 

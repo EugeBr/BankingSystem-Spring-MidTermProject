@@ -24,13 +24,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Checking extends Account{
     private final String TYPE = "CHECKING ACCOUNT";
-    @NotEmpty
+    @NotEmpty(message = "SecretKey can't be empty")
     private String secretKey;
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
     private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
     @Enumerated(EnumType.STRING)
     private Status status;
-    @PastOrPresent
+    @PastOrPresent(message = "Date can't be in the future")
     private LocalDate lastMonthlyFeeDate = LocalDate.now();
 
     public Checking(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {
