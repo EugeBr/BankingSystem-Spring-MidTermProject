@@ -72,4 +72,34 @@ class CheckingRepositoryTest {
         assertTrue(checkingOptional.isEmpty());
     }
 
+    @Test
+    public void checkMinimumBalance_checking_applyFee() {
+        Optional<Checking> checkingOptional = checkingRepository.findById(1);
+        System.out.println(checkingOptional.get());
+
+        checkingOptional.get().setBalance(new Money(new BigDecimal(200)));
+        checkingRepository.save(checkingOptional.get());
+        checkingOptional.get().checkMinimumBalance();
+        System.out.println(checkingOptional.get());
+        BigDecimal value = new BigDecimal("160.00");
+
+        assertEquals(value, checkingOptional.get().getBalance().getAmount());
+    }
+
+    @Test
+    public void checkMonthlyFee_checking_applyFee() {
+        Optional<Checking> checkingOptional = checkingRepository.findById(1);
+        System.out.println(checkingOptional.get());
+        LocalDate date = LocalDate.of(2023, 4, 1);
+        checkingOptional.get().setLastMonthlyFeeDate(date);
+        checkingRepository.save(checkingOptional.get());
+        System.out.println(checkingOptional.get());
+
+        checkingOptional.get().checkMonthlyFee();
+        System.out.println(checkingOptional.get());
+        BigDecimal value = new BigDecimal("2988.00");
+
+        assertEquals(value, checkingOptional.get().getBalance().getAmount());
+    }
+
 }

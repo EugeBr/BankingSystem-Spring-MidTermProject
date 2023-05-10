@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreditCard extends Account{
+    private final String TYPE = "CREDIT CARD";
     @DecimalMax("100000")
     private BigDecimal creditLimit = new BigDecimal(100);
     @DecimalMin("0.1")
@@ -59,6 +60,19 @@ public class CreditCard extends Account{
         super(balance, primaryOwner, secondaryOwner, createdBy);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
+    }
+
+    //check if it's time to take interests
+    @Override
+    public void checkInterest() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDateMinus30Days = currentDate.minusDays(30);
+        if(lastInterestDate.isBefore(currentDateMinus30Days)) {
+            BigDecimal balanceByInterestRate = new BigDecimal(String.valueOf(super.getBalance().getAmount().multiply(new BigDecimal(interestRate))));
+            Money newBalance = new Money(super.getBalance().decreaseAmount(balanceByInterestRate));
+            super.setBalance(newBalance);
+            setLastInterestDate(currentDate);
+        }
     }
 
     @Override

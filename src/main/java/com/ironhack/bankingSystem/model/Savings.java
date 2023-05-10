@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Savings extends Account{
+    private final String TYPE = "SAVINGS ACCOUNT";
     @NotEmpty
     private String secretKey;
     @DecimalMin("100")
@@ -88,6 +89,27 @@ public class Savings extends Account{
         this.minimumBalance = minimumBalance;
         this.status = status;
         this.interestRate = interestRate;
+    }
+
+    //check if balance is lower that minimum balance
+    @Override
+    public void checkMinimumBalance() {
+        if(getMinimumBalance().compareTo(getBalance().getAmount()) == 1) {
+            super.applyPenaltyFee();
+        }
+    }
+
+    //check if it's time to add interests
+    @Override
+    public void checkInterest() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDateMinus1Year = currentDate.minusYears(1);
+        if(lastInterestDate.isBefore(currentDateMinus1Year)) {
+            BigDecimal balanceByInterestRate = new BigDecimal(String.valueOf(super.getBalance().getAmount().multiply(new BigDecimal(interestRate))));
+            Money newBalance = new Money(super.getBalance().increaseAmount(balanceByInterestRate));
+            super.setBalance(newBalance);
+            setLastInterestDate(currentDate);
+        }
     }
 
     @Override

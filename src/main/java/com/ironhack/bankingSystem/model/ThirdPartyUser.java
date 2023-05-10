@@ -1,7 +1,6 @@
 package com.ironhack.bankingSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +17,8 @@ public class ThirdPartyUser {
     private String hashedKey;
     @NotEmpty
     private String name;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private Admin addedBy;
 
 }
