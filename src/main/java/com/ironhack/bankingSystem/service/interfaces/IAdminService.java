@@ -2,10 +2,7 @@ package com.ironhack.bankingSystem.service.interfaces;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
-import com.ironhack.bankingSystem.model.Account;
-import com.ironhack.bankingSystem.model.Checking;
-import com.ironhack.bankingSystem.model.CreditCard;
-import com.ironhack.bankingSystem.model.Savings;
+import com.ironhack.bankingSystem.model.*;
 
 public interface IAdminService {
 
@@ -14,4 +11,5 @@ public interface IAdminService {
     ResponseMessage saveSavingsAccount(Savings savings);
     ResponseMessage saveCreditCardAccount(CreditCard creditCard);
     ResponseMessage updateAccountBalance(Integer id, Money accountBalanceDto);
+    ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser);
 }

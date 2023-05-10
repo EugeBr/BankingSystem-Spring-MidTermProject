@@ -3,11 +3,9 @@ package com.ironhack.bankingSystem.controller.impl;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.controller.dto.AccountBalanceDto;
 import com.ironhack.bankingSystem.controller.interfaces.IAdminController;
-import com.ironhack.bankingSystem.model.Account;
-import com.ironhack.bankingSystem.model.Checking;
-import com.ironhack.bankingSystem.model.CreditCard;
-import com.ironhack.bankingSystem.model.Savings;
+import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.AccountRepository;
+import com.ironhack.bankingSystem.repository.ThirdPartyUserRepository;
 import com.ironhack.bankingSystem.service.impl.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,9 @@ public class AdminController implements IAdminController {
     AccountRepository accountRepository;
 
     @Autowired
+    ThirdPartyUserRepository thirdPartyUserRepository;
+
+    @Autowired
     AdminService adminService;
 
     @GetMapping("/accounts")
@@ -36,6 +37,12 @@ public class AdminController implements IAdminController {
     @ResponseStatus(HttpStatus.OK)
     public Account getAccountById(@PathVariable Integer id) {
         return adminService.getAccountById(id);
+    }
+
+    @GetMapping("/third-party-users")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ThirdPartyUser> getAllThirdPartyUsers() {
+        return thirdPartyUserRepository.findAll();
     }
 
     @PostMapping("/accounts/checking")
@@ -56,9 +63,16 @@ public class AdminController implements IAdminController {
         return adminService.saveCreditCardAccount(creditCard);
     }
 
+    // replaced status.NO_CONTENT with status.OK, so I can return a message
     @PatchMapping("/accounts/{id}/balance")
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage updateAccountBalance(@PathVariable Integer id, @RequestBody @Valid AccountBalanceDto accountBalanceDto) {
         return adminService.updateAccountBalance(id, accountBalanceDto.getBalance());
+    }
+
+    @PostMapping("/third-party-users")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage saveThirdPartyUser(@RequestBody @Valid ThirdPartyUser thirdPartyUser) {
+        return adminService.saveThirdPartyUser(thirdPartyUser);
     }
 }

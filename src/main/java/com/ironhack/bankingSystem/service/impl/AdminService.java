@@ -33,6 +33,9 @@ public class AdminService implements IAdminService {
     @Autowired
     CreditCardRepository creditCardRepository;
 
+    @Autowired
+    ThirdPartyUserRepository thirdPartyUserRepository;
+
     @Override
     public Account getAccountById(Integer id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
@@ -78,10 +81,17 @@ public class AdminService implements IAdminService {
     @Override
     public ResponseMessage updateAccountBalance(Integer id, Money balance) {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account" + id + "not found"); Account account = accountOptional.get();
+        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account" + id + "not found");
         accountOptional.get().setBalance(balance);
         accountRepository.save(accountOptional.get());
-       // accountOptional.get().checkMinimumBalance();
         return new ResponseMessage("Account " + id + " balance has been successfully updated");
+    }
+
+    @Override
+    public ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser) {
+        Optional<ThirdPartyUser> thirdPartyUserOptional = thirdPartyUserRepository.findById(thirdPartyUser.getHashedKey());
+        if (thirdPartyUserOptional.isPresent()) {throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This user already exist");}
+        thirdPartyUserRepository.save(thirdPartyUser);
+        return new ResponseMessage("Third Party user successfully added");
     }
 }

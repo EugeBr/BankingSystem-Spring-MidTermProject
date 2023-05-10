@@ -30,6 +30,7 @@ public class AccountHolderController implements IAccountHolderController {
         return accountHolderService.getAccountById(id, accountId);
     }
 
+    // replaced status.NO_CONTENT with status.OK, so I can return a message
     @PostMapping("/{id}/transfer")
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage transferFunds(
