@@ -6,10 +6,7 @@ import com.ironhack.bankingSystem.repository.AccountRepository;
 import com.ironhack.bankingSystem.service.impl.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class AdminController implements IAdminController {
     @ResponseStatus(HttpStatus.OK)
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
+    }
+
+    @GetMapping("/accounts/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Account getAccountById(@PathVariable Integer id) {
+        return adminService.getAccountById(id);
     }
 }

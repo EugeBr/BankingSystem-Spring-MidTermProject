@@ -7,4 +7,5 @@ import java.util.List;
 public interface IAdminController {
 
     List<Account> getAllAccounts();
+    Account getAccountById(Integer id);
 }
