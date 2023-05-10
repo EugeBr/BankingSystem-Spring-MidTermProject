@@ -95,5 +95,4 @@ public class AccountHolderService implements IAccountHolderService {
         return new ResponseMessage("Funds transferred successfully");
     }
 
-
 }
