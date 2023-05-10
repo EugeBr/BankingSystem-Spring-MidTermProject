@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class Checking extends Account{
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
     private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status can't be null")
     private Status status;
     @PastOrPresent(message = "Date can't be in the future")
     private LocalDate lastMonthlyFeeDate = LocalDate.now();

@@ -1,6 +1,7 @@
 package com.ironhack.bankingSystem.controller.impl;
 
 import com.ironhack.bankingSystem.classes.ResponseMessage;
+import com.ironhack.bankingSystem.controller.dto.AccountBalanceDto;
 import com.ironhack.bankingSystem.controller.interfaces.IAdminController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.model.Checking;
@@ -53,5 +54,11 @@ public class AdminController implements IAdminController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMessage saveCreditCardAccount(@RequestBody @Valid CreditCard creditCard) {
         return adminService.saveCreditCardAccount(creditCard);
+    }
+
+    @PatchMapping("/accounts/{id}/balance")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage updateAccountBalance(@PathVariable Integer id, @RequestBody @Valid AccountBalanceDto accountBalanceDto) {
+        return adminService.updateAccountBalance(id, accountBalanceDto.getBalance());
     }
 }

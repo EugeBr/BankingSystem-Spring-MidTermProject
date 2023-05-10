@@ -1,6 +1,8 @@
 package com.ironhack.bankingSystem.service.impl;
 
+import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
+import com.ironhack.bankingSystem.controller.dto.AccountBalanceDto;
 import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAdminService;
@@ -71,5 +73,15 @@ public class AdminService implements IAdminService {
     public ResponseMessage saveCreditCardAccount(CreditCard creditCard) {
         creditCardRepository.save(creditCard);
         return new ResponseMessage("Credit Card account successfully created");
+    }
+
+    @Override
+    public ResponseMessage updateAccountBalance(Integer id, Money balance) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account" + id + "not found"); Account account = accountOptional.get();
+        accountOptional.get().setBalance(balance);
+        accountRepository.save(accountOptional.get());
+       // accountOptional.get().checkMinimumBalance();
+        return new ResponseMessage("Account " + id + " balance has been successfully updated");
     }
 }
