@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
+
     @Query(value = "SELECT * FROM credit_card c JOIN account ac ON  ac.id = c.id JOIN account_holder a ON ac.primary_owner_id = a.id WHERE a.id = :idParam",
             nativeQuery = true)
     List<CreditCard> findAllByPrimaryOwnerIdParam(@Param("idParam") Integer id);

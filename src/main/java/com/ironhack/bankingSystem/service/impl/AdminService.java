@@ -2,7 +2,6 @@ package com.ironhack.bankingSystem.service.impl;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
-import com.ironhack.bankingSystem.controller.dto.AccountBalanceDto;
 import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAdminService;
@@ -79,19 +78,35 @@ public class AdminService implements IAdminService {
     }
 
     @Override
+    public ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser) {
+        Optional<ThirdPartyUser> thirdPartyUserOptional = thirdPartyUserRepository.findById(thirdPartyUser.getHashedKey());
+        if (thirdPartyUserOptional.isPresent()) {throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This user already exist");}
+        thirdPartyUserRepository.save(thirdPartyUser);
+        return new ResponseMessage("Third Party user successfully added");
+    }
+
+    @Override
     public ResponseMessage updateAccountBalance(Integer id, Money balance) {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account" + id + "not found");
+        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + id + " not found");
         accountOptional.get().setBalance(balance);
         accountRepository.save(accountOptional.get());
         return new ResponseMessage("Account " + id + " balance has been successfully updated");
     }
 
     @Override
-    public ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser) {
-        Optional<ThirdPartyUser> thirdPartyUserOptional = thirdPartyUserRepository.findById(thirdPartyUser.getHashedKey());
-        if (thirdPartyUserOptional.isPresent()) {throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This user already exist");}
-        thirdPartyUserRepository.save(thirdPartyUser);
-        return new ResponseMessage("Third Party user successfully added");
+    public ResponseMessage deleteAccount(Integer id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if(accountOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + id + " not found");
+        accountRepository.deleteById(id);
+        return new ResponseMessage("Account " + id + " was successfully deleted");
+    }
+
+    @Override
+    public ResponseMessage deleteThirdPartyUser(String hashedKey) {
+        Optional<ThirdPartyUser> thirdPartyUserOptional = thirdPartyUserRepository.findById(hashedKey);
+        if(thirdPartyUserOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Third Party user " + hashedKey + " not found");
+        thirdPartyUserRepository.deleteById(hashedKey);
+        return new ResponseMessage("Third Party user " + hashedKey + " was successfully deleted");
     }
 }

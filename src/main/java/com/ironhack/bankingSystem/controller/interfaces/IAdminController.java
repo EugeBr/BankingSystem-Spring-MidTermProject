@@ -14,6 +14,7 @@ public interface IAdminController {
     ResponseMessage saveCheckingAccount(Checking checking);
     ResponseMessage saveSavingsAccount(Savings savings);
     ResponseMessage saveCreditCardAccount(CreditCard creditCard);
-    ResponseMessage updateAccountBalance(Integer id, AccountBalanceDto accountBalanceDto);
     ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser);
+    ResponseMessage updateAccountBalance(Integer id, AccountBalanceDto accountBalanceDto);
+
 }

@@ -63,6 +63,12 @@ public class AdminController implements IAdminController {
         return adminService.saveCreditCardAccount(creditCard);
     }
 
+    @PostMapping("/third-party-users")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage saveThirdPartyUser(@RequestBody @Valid ThirdPartyUser thirdPartyUser) {
+        return adminService.saveThirdPartyUser(thirdPartyUser);
+    }
+
     // replaced status.NO_CONTENT with status.OK, so I can return a message
     @PatchMapping("/accounts/{id}/balance")
     @ResponseStatus(HttpStatus.OK)
@@ -70,9 +76,16 @@ public class AdminController implements IAdminController {
         return adminService.updateAccountBalance(id, accountBalanceDto.getBalance());
     }
 
-    @PostMapping("/third-party-users")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage saveThirdPartyUser(@RequestBody @Valid ThirdPartyUser thirdPartyUser) {
-        return adminService.saveThirdPartyUser(thirdPartyUser);
+    // same here
+    @DeleteMapping("/accounts/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage deleteAccount(@PathVariable Integer id) {
+        return adminService.deleteAccount(id);
+    }
+
+    @DeleteMapping("/third-party-users/{hashedKey}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage deleteThirdPartyUser(@PathVariable String hashedKey) {
+        return adminService.deleteThirdPartyUser(hashedKey);
     }
 }

@@ -10,6 +10,8 @@ public interface IAdminService {
     ResponseMessage saveCheckingAccount(Checking checking);
     ResponseMessage saveSavingsAccount(Savings savings);
     ResponseMessage saveCreditCardAccount(CreditCard creditCard);
-    ResponseMessage updateAccountBalance(Integer id, Money accountBalanceDto);
     ResponseMessage saveThirdPartyUser(ThirdPartyUser thirdPartyUser);
+    ResponseMessage updateAccountBalance(Integer id, Money accountBalanceDto);
+    ResponseMessage deleteAccount(Integer id);
+    ResponseMessage deleteThirdPartyUser(String hashedKey);
 }
