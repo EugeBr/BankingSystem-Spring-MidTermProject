@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class StudentChecking extends Account{
     @NotEmpty
     private String secretKey;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status can't be null")
     private Status status;
 
     public StudentChecking(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {
@@ -32,5 +34,12 @@ public class StudentChecking extends Account{
         super(balance, primaryOwner, secondaryOwner, createdBy);
         this.secretKey = secretKey;
         this.status = status;
+    }
+
+    // constructor that takes a Checking account and transforms it into a StudentChecking account
+    public StudentChecking(Checking checking) {
+        super(checking.getBalance(), checking.getPrimaryOwner(), checking.getSecondaryOwner(), checking.getCreatedBy());
+        this.secretKey = checking.getSecretKey();
+        this.status = checking.getStatus();
     }
 }

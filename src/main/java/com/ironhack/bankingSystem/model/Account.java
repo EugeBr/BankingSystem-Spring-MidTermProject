@@ -3,6 +3,7 @@ package com.ironhack.bankingSystem.model;
 import com.ironhack.bankingSystem.classes.Money;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Embedded
+    @NotNull(message = "Balance can't be null")
     private Money balance;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "primary_owner_id", nullable = false)

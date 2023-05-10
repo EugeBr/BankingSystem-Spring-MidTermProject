@@ -20,11 +20,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CreditCard extends Account{
     private final String TYPE = "CREDIT CARD";
-    @DecimalMax("100000")
+    @DecimalMax(value = "100000", message = "Credit limit can't exceed US$ 100000")
     private BigDecimal creditLimit = new BigDecimal(100);
-    @DecimalMin("0.1")
+    @DecimalMin(value = "0.1", message = "Interest rate can't be lower than 0.1")
     private Double interestRate = 0.2;
-    @PastOrPresent
+    @PastOrPresent(message = "Last interest date can't be in the future")
     private LocalDate lastInterestDate = LocalDate.now();
 
     public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy) {

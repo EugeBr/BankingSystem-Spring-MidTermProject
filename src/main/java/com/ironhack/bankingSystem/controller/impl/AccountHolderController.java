@@ -1,7 +1,8 @@
 package com.ironhack.bankingSystem.controller.impl;
 
 import com.ironhack.bankingSystem.classes.TransferRequest;
-import com.ironhack.bankingSystem.classes.TransferResponse;
+import com.ironhack.bankingSystem.classes.ResponseMessage;
+import com.ironhack.bankingSystem.controller.interfaces.IAccountHolderController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/account-holders")
-public class AccountHolderController {
+public class AccountHolderController implements IAccountHolderController {
 
     @Autowired
     IAccountHolderService accountHolderService;
@@ -29,9 +30,10 @@ public class AccountHolderController {
         return accountHolderService.getAccountById(id, accountId);
     }
 
+    // replaced status.NO_CONTENT with status.OK, so I can return a message
     @PostMapping("/{id}/transfer")
     @ResponseStatus(HttpStatus.OK)
-    public TransferResponse transferFunds(
+    public ResponseMessage transferFunds(
             @PathVariable Integer id,
             @RequestBody TransferRequest transferRequest
     ) {
