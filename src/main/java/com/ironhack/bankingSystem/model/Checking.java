@@ -27,7 +27,7 @@ public class Checking extends Account{
     private final String TYPE = "CHECKING ACCOUNT";
     @NotEmpty(message = "SecretKey can't be empty")
     private String secretKey;
-    private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
+    private final BigDecimal MINIMUM_BALANCE = new BigDecimal("250.00");
     private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Status can't be null")
