@@ -2,6 +2,7 @@ package com.ironhack.bankingSystem.controller.impl;
 
 import com.ironhack.bankingSystem.classes.TransferRequest;
 import com.ironhack.bankingSystem.classes.TransferResponse;
+import com.ironhack.bankingSystem.controller.interfaces.IAccountHolderController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/account-holders")
-public class AccountHolderController {
+public class AccountHolderController implements IAccountHolderController {
 
     @Autowired
     IAccountHolderService accountHolderService;
