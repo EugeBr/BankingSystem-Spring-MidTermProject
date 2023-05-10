@@ -1,10 +1,12 @@
 package com.ironhack.bankingSystem.controller.impl;
 
+import com.ironhack.bankingSystem.classes.ThirdPartyTransferRequest;
 import com.ironhack.bankingSystem.classes.TransferRequest;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.controller.interfaces.IAccountHolderController;
 import com.ironhack.bankingSystem.model.Account;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +37,19 @@ public class AccountHolderController implements IAccountHolderController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage transferFunds(
             @PathVariable Integer id,
-            @RequestBody TransferRequest transferRequest
+            @RequestBody @Valid TransferRequest transferRequest
     ) {
         return accountHolderService.transferFunds(id, transferRequest);
+    }
+
+    @PostMapping("/{id}/transfer-to-third-party/{hashedKey}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage transferFundsToThirdParty(
+            @PathVariable Integer id,
+            @PathVariable String hashedKey,
+            @RequestBody @Valid ThirdPartyTransferRequest thirdPartyTransferRequest
+    ) {
+        return accountHolderService.transferFundsToThirdParty(id, hashedKey, thirdPartyTransferRequest);
     }
 
 }
