@@ -46,11 +46,7 @@ The Library Management System is implemented using various technologies that ena
 - JUnit 5 is a widely used testing framework for Java applications that provides a set of tools for writing and executing tests to ensure the quality and correctness of the application. It includes features such as assertions, parameterized tests, and test suites.
 - IntelliJ IDEA is a popular Integrated Development Environment (IDE) for Java development that provides a comprehensive set of tools for building and debugging applications. It includes features such as intelligent code completion, refactoring tools, and debugging tools, among others.
 
-[![](https://giphy.com/embed/BA28qGhNLSZ6U)]
-
-[![](https://giphy.com/gifs/cartoon-network-we-bare-bears-new-show-BA28qGhNLSZ6U)]
-
-
+![gif](https://media.giphy.com/media/BA28qGhNLSZ6U/giphy.gif)]
 
 ## 👥 LINKS:
 - TRELLO LINK : https://trello.com/b/j1OkHjuL/midterm-project
