@@ -6,7 +6,9 @@ import com.ironhack.bankingSystem.classes.TransferRequest;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.model.enums.Status;
+import com.ironhack.bankingSystem.model.security.User;
 import com.ironhack.bankingSystem.repository.*;
+import com.ironhack.bankingSystem.repository.security.UserRepository;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.ironhack.bankingSystem.model.enums.Status.FROZEN;
@@ -40,8 +43,16 @@ public class AccountHolderService implements IAccountHolderService {
     @Autowired
     ThirdPartyUserRepository thirdPartyUserRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
-    public List<Account> getAllAccountHoldersAccounts(Integer id) {
+    public List<Account> getAllAccountHoldersAccounts(Integer id, String userName) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not found"); }
+        String userOptionalUserName = userOptional.get().getUsername();
+        if(!Objects.equals(userOptionalUserName, userName)) { throw new ResponseStatusException(HttpStatus.FORBIDDEN); }
+
         List<Account> accountList = new ArrayList<>();
 
         List<Checking> primaryCheckingList = checkingRepository.findAllByPrimaryOwnerIdParam(id);
@@ -83,8 +94,8 @@ public class AccountHolderService implements IAccountHolderService {
     }
 
     @Override
-    public Account getAccountById(Integer id, Integer accountId) {
-        List<Account> accountList = getAllAccountHoldersAccounts(id);
+    public Account getAccountById(Integer id, Integer accountId, String userName) {
+        List<Account> accountList = getAllAccountHoldersAccounts(id, userName);
         Optional<Account> accountOptional = accountRepository.findById(accountId);
         if (accountOptional.isEmpty() || !accountList.contains(accountOptional.get())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + accountId + " doesn't exist or belongs to another user");
@@ -96,8 +107,8 @@ public class AccountHolderService implements IAccountHolderService {
     }
 
     @Override
-    public ResponseMessage transferFunds(Integer id, TransferRequest transferRequest) {
-        List<Account> accountList = getAllAccountHoldersAccounts(id);
+    public ResponseMessage transferFunds(Integer id, TransferRequest transferRequest, String userName) {
+        List<Account> accountList = getAllAccountHoldersAccounts(id, userName);
         Optional<Account> sendersAccount = accountRepository.findById(transferRequest.getAccountId());
         Optional<Account> recipientsAccount = accountRepository.findById(transferRequest.getRecipientAccountId());
         if (sendersAccount.isEmpty() || !accountList.contains(sendersAccount.get())) {
@@ -124,8 +135,8 @@ public class AccountHolderService implements IAccountHolderService {
     }
 
     @Override
-    public ResponseMessage transferFundsToThirdParty(Integer id, String hashedKey, ThirdPartyTransferRequest thirdPartyTransferRequest) {
-        List<Account> accountList = getAllAccountHoldersAccounts(id);
+    public ResponseMessage transferFundsToThirdParty(Integer id, String hashedKey, ThirdPartyTransferRequest thirdPartyTransferRequest, String userName) {
+        List<Account> accountList = getAllAccountHoldersAccounts(id, userName);
         Optional<Account> sendersAccount = accountRepository.findById(thirdPartyTransferRequest.getAccountId());
         Optional<ThirdPartyUser> recipientsAccount = thirdPartyUserRepository.findById(hashedKey);
         if (sendersAccount.isEmpty() || !accountList.contains(sendersAccount.get())) {

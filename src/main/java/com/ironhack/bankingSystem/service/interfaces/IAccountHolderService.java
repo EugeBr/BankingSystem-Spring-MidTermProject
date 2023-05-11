@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface IAccountHolderService {
 
-    List<Account> getAllAccountHoldersAccounts(Integer id);
-    Account getAccountById(Integer id, Integer accountId);
-    ResponseMessage transferFunds(Integer id, TransferRequest transferRequest);
-    ResponseMessage transferFundsToThirdParty(Integer id, String hashedKey, ThirdPartyTransferRequest thirdPartyTransferRequest);
+    List<Account> getAllAccountHoldersAccounts(Integer id, String userName);
+    Account getAccountById(Integer id, Integer accountId, String userName);
+    ResponseMessage transferFunds(Integer id, TransferRequest transferRequest, String userName);
+    ResponseMessage transferFundsToThirdParty(Integer id, String hashedKey, ThirdPartyTransferRequest thirdPartyTransferRequest, String userName);
 }

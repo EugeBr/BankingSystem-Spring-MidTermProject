@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class AdminController implements IAdminController {
 
     @GetMapping("/accounts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Account getAccountById(/*Principal principal,*/ @PathVariable Integer id) {
+    public Account getAccountById(@PathVariable Integer id) {
         return adminService.getAccountById(id);
     }
 

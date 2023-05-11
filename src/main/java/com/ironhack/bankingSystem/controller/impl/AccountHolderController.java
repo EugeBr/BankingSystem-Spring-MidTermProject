@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,14 +23,16 @@ public class AccountHolderController implements IAccountHolderController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAllAccountHoldersAccounts(@PathVariable Integer id) {
-        return accountHolderService.getAllAccountHoldersAccounts(id);
+    public List<Account> getAllAccountHoldersAccounts(@PathVariable Integer id, Principal principal) {
+        String userName = principal.getName();
+        return accountHolderService.getAllAccountHoldersAccounts(id, userName);
     }
 
     @GetMapping("/{id}/accountId")
     @ResponseStatus(HttpStatus.OK)
-    public Account getAccountById(@PathVariable Integer id, @RequestParam Integer accountId) {
-        return accountHolderService.getAccountById(id, accountId);
+    public Account getAccountById(@PathVariable Integer id, @RequestParam Integer accountId, Principal principal) {
+        String userName = principal.getName();
+        return accountHolderService.getAccountById(id, accountId, userName);
     }
 
     // replaced status.NO_CONTENT with status.OK, so I can return a message
@@ -37,9 +40,11 @@ public class AccountHolderController implements IAccountHolderController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage transferFunds(
             @PathVariable Integer id,
-            @RequestBody @Valid TransferRequest transferRequest
+            @RequestBody @Valid TransferRequest transferRequest,
+            Principal principal
     ) {
-        return accountHolderService.transferFunds(id, transferRequest);
+        String userName = principal.getName();
+        return accountHolderService.transferFunds(id, transferRequest, userName);
     }
 
     @PostMapping("/{id}/transfer-to-third-party/{hashedKey}")
@@ -47,9 +52,11 @@ public class AccountHolderController implements IAccountHolderController {
     public ResponseMessage transferFundsToThirdParty(
             @PathVariable Integer id,
             @PathVariable String hashedKey,
-            @RequestBody @Valid ThirdPartyTransferRequest thirdPartyTransferRequest
+            @RequestBody @Valid ThirdPartyTransferRequest thirdPartyTransferRequest,
+            Principal principal
     ) {
-        return accountHolderService.transferFundsToThirdParty(id, hashedKey, thirdPartyTransferRequest);
+        String userName = principal.getName();
+        return accountHolderService.transferFundsToThirdParty(id, hashedKey, thirdPartyTransferRequest, userName);
     }
 
 }
