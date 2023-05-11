@@ -74,7 +74,7 @@ class AccountHolderControllerTest {
     }
 
     @Test
-    public void testTransferFunds() throws Exception {
+    public void testTransferFunds_validRequest_fundsTransferred() throws Exception {
         TransferRequest transferRequest = new TransferRequest(5, 8,  new BigDecimal(10));
         String body = objectMapper.writeValueAsString(transferRequest);
         MvcResult mvcResult = mockMvc.perform(post("/api/account-holders/2/transfer")
@@ -87,7 +87,7 @@ class AccountHolderControllerTest {
 
 
     @Test
-    public void testTransferFundsToThirdParty() throws Exception {
+    public void testTransferFundsToThirdParty_validRequest_fundsTransferred() throws Exception {
         ThirdPartyTransferRequest transferRequest = new ThirdPartyTransferRequest(new BigDecimal(100), 8, "FSJ665A");
         String body = objectMapper.writeValueAsString(transferRequest);
         MvcResult mvcResult = mockMvc.perform(post("/api/account-holders/2/transfer-to-third-party/HG6588E")
