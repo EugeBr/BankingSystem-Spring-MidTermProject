@@ -1,6 +1,7 @@
 package com.ironhack.bankingSystem.model;
 
 import com.ironhack.bankingSystem.classes.Money;
+import com.ironhack.bankingSystem.model.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -32,24 +33,34 @@ public abstract class Account {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "secondary_owner_id")
     private AccountHolder secondaryOwner;
-    private final BigDecimal PENALTY_FEE = new BigDecimal(40);
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))
+    })
+    private final Money PENALTY_FEE = new Money(new BigDecimal("40.00"));
     @PastOrPresent
     private LocalDate creationDate = LocalDate.now();
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin createdBy;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status can't be null")
+    private Status status;
 
-    public Account(Money balance, AccountHolder primaryOwner, Admin createdBy) {
+    public Account(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.createdBy = createdBy;
+        this.status = status;
     }
 
-    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.createdBy = createdBy;
+        this.status = status;
     }
 
     public void applyPenaltyFee() {
@@ -76,9 +87,10 @@ public abstract class Account {
                 ", balance=" + balance +
                 ", primaryOwner=" + primaryOwner +
                 ", secondaryOwner=" + secondaryOwner +
+                ", PENALTY_FEE=" + PENALTY_FEE +
                 ", creationDate=" + creationDate +
                 ", createdBy=" + createdBy.getName() +
+                ", status=" + status +
                 '}';
     }
-
 }

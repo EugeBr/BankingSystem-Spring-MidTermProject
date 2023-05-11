@@ -20,26 +20,28 @@ public class StudentChecking extends Account{
     private final String TYPE = "STUDENT CHECKING ACCOUNT";
     @NotEmpty
     private String secretKey;
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Status can't be null")
-    private Status status;
 
-    public StudentChecking(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, createdBy);
+    public StudentChecking(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
-    public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
     // constructor that takes a Checking account and transforms it into a StudentChecking account
     public StudentChecking(Checking checking) {
-        super(checking.getBalance(), checking.getPrimaryOwner(), checking.getSecondaryOwner(), checking.getCreatedBy());
+        super(checking.getBalance(), checking.getPrimaryOwner(), checking.getSecondaryOwner(), checking.getCreatedBy(), checking.getStatus());
         this.secretKey = checking.getSecretKey();
-        this.status = checking.getStatus();
+    }
+
+    @Override
+    public String toString() {
+        return "StudentChecking{" +
+                "TYPE='" + TYPE + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                "} " + super.toString();
     }
 }

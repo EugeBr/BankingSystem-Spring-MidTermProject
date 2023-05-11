@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ironhack.bankingSystem.model.enums.Status.ACTIVE;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -36,7 +37,7 @@ class CreditCardRepositoryTest {
 
         BigDecimal amount = new BigDecimal(2000);
         Money balance = new Money(amount);
-        CreditCard creditCard = new CreditCard(balance, accountHolder1, admin);
+        CreditCard creditCard = new CreditCard(balance, accountHolder1, admin, ACTIVE);
         creditCardRepository.save(creditCard);
     }
 

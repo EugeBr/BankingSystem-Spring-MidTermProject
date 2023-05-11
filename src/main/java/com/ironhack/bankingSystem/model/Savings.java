@@ -25,67 +25,56 @@ public class Savings extends Account{
     private String secretKey;
     @DecimalMin(value = "100", message = "Minimum balance can't be lower than US$ 1000")
     private BigDecimal minimumBalance = new BigDecimal(1000);
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Status can't be null")
-    private Status status;
     @DecimalMax(value = "0.5", message = "Interest rate can't exceed 0.5")
     private Double interestRate = 0.0025;
     @PastOrPresent(message = "Last interest date can't be in the future")
     private LocalDate lastInterestDate = LocalDate.now();
 
-    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, BigDecimal minimumBalance, Status status) {
-        super(balance, primaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey, BigDecimal minimumBalance) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
         this.minimumBalance = minimumBalance;
-        this.status = status;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status, Double interestRate) {
-        super(balance, primaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey, Double interestRate) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
         this.interestRate = interestRate;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, BigDecimal minimumBalance, Status status, Double interestRate) {
-        super(balance, primaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey, BigDecimal minimumBalance, Double interestRate) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
         this.minimumBalance = minimumBalance;
-        this.status = status;
         this.interestRate = interestRate;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, BigDecimal minimumBalance, Status status) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey, BigDecimal minimumBalance) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
         this.minimumBalance = minimumBalance;
-        this.status = status;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, Status status, Double interestRate) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey, Double interestRate) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
         this.interestRate = interestRate;
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, BigDecimal minimumBalance, Status status, Double interestRate) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey, BigDecimal minimumBalance, Double interestRate) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
         this.minimumBalance = minimumBalance;
-        this.status = status;
         this.interestRate = interestRate;
     }
 
@@ -113,9 +102,9 @@ public class Savings extends Account{
     @Override
     public String toString() {
         return "Savings{" +
-                "secretKey='" + secretKey + '\'' +
+                "TYPE='" + TYPE + '\'' +
+                ", secretKey='" + secretKey + '\'' +
                 ", minimumBalance=" + minimumBalance +
-                ", status=" + status +
                 ", interestRate=" + interestRate +
                 ", lastInterestDate=" + lastInterestDate +
                 "} " + super.toString();

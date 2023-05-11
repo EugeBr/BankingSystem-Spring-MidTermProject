@@ -37,7 +37,7 @@ class StudentCheckingRepositoryTest {
 
         BigDecimal amount = new BigDecimal(3000);
         Money balance = new Money(amount);
-        StudentChecking studentChecking = new StudentChecking(balance, accountHolder1, admin, "YUT655D", ACTIVE);
+        StudentChecking studentChecking = new StudentChecking(balance, accountHolder1, admin, ACTIVE, "YUT655D");
         studentCheckingRepository.save(studentChecking);
     }
 
