@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ironhack.bankingSystem.classes.Money;
-import com.ironhack.bankingSystem.model.AccountHolder;
-import com.ironhack.bankingSystem.model.Address;
-import com.ironhack.bankingSystem.model.Admin;
-import com.ironhack.bankingSystem.model.Checking;
+import com.ironhack.bankingSystem.controller.dto.AccountBalanceDto;
+import com.ironhack.bankingSystem.model.*;
 import com.ironhack.bankingSystem.repository.AccountHolderRepository;
 import com.ironhack.bankingSystem.repository.AddressRepository;
 import com.ironhack.bankingSystem.repository.AdminRepository;
@@ -127,29 +125,178 @@ class AdminControllerTest {
                 .andReturn();
 
         assertTrue(mvcResult.getResponse().getContentAsString().contains("Rebecca T. Carroll"));
+
+        mockMvc.perform(delete("/api/admins/accounts/11"))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
-    void saveSavingsAccount() {
+    void saveSavingsAccount_validSavings_accountSaved() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        Admin admin = new Admin("George L. Lucas");
+        adminRepository.save(admin);
+        Address address1 = new Address("James Street", "739");
+        addressRepository.save(address1);
+        LocalDate date1 = LocalDate.of(1946, 2, 18);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        accountHolderRepository.save(accountHolder1);
+        Savings savings1 = new Savings(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE, "IJH465D");
+
+        String body = objectMapper.writeValueAsString(savings1);
+
+        mockMvc.perform(post("/api/admins/accounts/savings").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/accounts"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contains("Rebecca T. Carroll"));
+
+        mockMvc.perform(delete("/api/admins/accounts/11"))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
-    void saveCreditCardAccount() {
+    void saveCreditCardAccount() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        Admin admin = new Admin("George L. Lucas");
+        adminRepository.save(admin);
+        Address address1 = new Address("James Street", "739");
+        addressRepository.save(address1);
+        LocalDate date1 = LocalDate.of(1946, 2, 18);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        accountHolderRepository.save(accountHolder1);
+        CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE);
+
+        String body = objectMapper.writeValueAsString(creditCard1);
+
+        mockMvc.perform(post("/api/admins/accounts/credit-card").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/accounts"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contains("Rebecca T. Carroll"));
+
+        mockMvc.perform(delete("/api/admins/accounts/11"))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
-    void saveThirdPartyUser() {
+    void saveThirdPartyUser_validThirdPartyUser_thirdPartyUserSaved() throws Exception {
+        Admin admin = new Admin("George L. Lucas");
+        adminRepository.save(admin);
+        ThirdPartyUser thirdParty1 = new ThirdPartyUser("GF8754E", "Diana J. Cano", admin);
+
+        String body = objectMapper.writeValueAsString(thirdParty1);
+
+        mockMvc.perform(post("/api/admins/third-party-users").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/third-party-users"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contains("Diana J. Cano"));
+
+        mockMvc.perform(delete("/api/admins/third-party-users/GF8754E"))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
-    void updateAccountBalance() {
+    void updateAccountBalance_validBalance_balanceUpdated() throws Exception {
+        AccountBalanceDto accountBalanceDto = new AccountBalanceDto(new Money(new BigDecimal(888888)));
+        String body = objectMapper.writeValueAsString(accountBalanceDto);
+
+        mockMvc.perform(patch("/api/admins/accounts/1/balance").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/accounts/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contains("888888"));
     }
 
     @Test
-    void deleteAccount() {
+    void deleteAccount_accountDeleted() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        Admin admin = new Admin("George L. Lucas");
+        adminRepository.save(admin);
+        Address address1 = new Address("James Street", "739");
+        addressRepository.save(address1);
+        LocalDate date1 = LocalDate.of(1946, 2, 18);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        accountHolderRepository.save(accountHolder1);
+        CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE);
+
+        String body = objectMapper.writeValueAsString(creditCard1);
+
+        mockMvc.perform(post("/api/admins/accounts/credit-card").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        mockMvc.perform(delete("/api/admins/accounts/11"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/accounts"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertFalse(mvcResult.getResponse().getContentAsString().contains("Rebecca T. Carroll"));
+
     }
 
     @Test
-    void deleteThirdPartyUser() {
+    void deleteThirdPartyUser() throws Exception {
+        Admin admin = new Admin("George L. Lucas");
+        adminRepository.save(admin);
+        ThirdPartyUser thirdParty1 = new ThirdPartyUser("GF8754E", "Diana J. Cano", admin);
+
+        String body = objectMapper.writeValueAsString(thirdParty1);
+
+        mockMvc.perform(post("/api/admins/third-party-users").content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        mockMvc.perform(delete("/api/admins/third-party-users/GF8754E"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MvcResult mvcResult = mockMvc.perform(get("/api/admins/third-party-users"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+
+        assertFalse(mvcResult.getResponse().getContentAsString().contains("Diana J. Cano"));
     }
 }
