@@ -24,7 +24,7 @@ class ThirdPartyUserRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        Admin admin = new Admin("John Perez");
+        Admin admin = new Admin("John Perez", "john", "1234");
         ThirdPartyUser thirdParty1 = new ThirdPartyUser("KJ8754E", "Lisa J. Dudley", admin);
         thirdPartyUserrepository.save(thirdParty1);
         ThirdPartyUser thirdParty2 = new ThirdPartyUser("HG6588E", "Michael G. Pearson", admin);

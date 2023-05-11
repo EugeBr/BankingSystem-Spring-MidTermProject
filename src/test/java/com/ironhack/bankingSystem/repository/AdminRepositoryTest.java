@@ -23,9 +23,9 @@ class AdminRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        Admin admin1 = new Admin("Lisa J. Dudley");
+        Admin admin1 = new Admin("Lisa J. Dudley", "lisa", "1234");
         adminRepository.save(admin1);
-        Admin admin2 = new Admin("Michael G. Pearson");
+        Admin admin2 = new Admin("Michael G. Pearson", "lisa", "1234");
         adminRepository.save(admin2);
     }
 

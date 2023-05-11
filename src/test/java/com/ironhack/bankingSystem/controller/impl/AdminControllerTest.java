@@ -104,12 +104,12 @@ class AdminControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         Address address1 = new Address("James Street", "739");
         addressRepository.save(address1);
         LocalDate date1 = LocalDate.of(1946, 2, 18);
-        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll","rebecca", "1234", date1, address1);
         accountHolderRepository.save(accountHolder1);
         Checking checking1 = new Checking(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE, "IJH465D");
 
@@ -137,12 +137,12 @@ class AdminControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         Address address1 = new Address("James Street", "739");
         addressRepository.save(address1);
         LocalDate date1 = LocalDate.of(1946, 2, 18);
-        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll","rebecca", "1234", date1, address1);
         accountHolderRepository.save(accountHolder1);
         Savings savings1 = new Savings(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE, "IJH465D");
 
@@ -170,12 +170,12 @@ class AdminControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         Address address1 = new Address("James Street", "739");
         addressRepository.save(address1);
         LocalDate date1 = LocalDate.of(1946, 2, 18);
-        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll","rebecca", "1234", date1, address1);
         accountHolderRepository.save(accountHolder1);
         CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE);
 
@@ -199,7 +199,7 @@ class AdminControllerTest {
 
     @Test
     void saveThirdPartyUser_validThirdPartyUser_thirdPartyUserSaved() throws Exception {
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         ThirdPartyUser thirdParty1 = new ThirdPartyUser("GF8754E", "Diana J. Cano", admin);
 
@@ -247,12 +247,12 @@ class AdminControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         Address address1 = new Address("James Street", "739");
         addressRepository.save(address1);
         LocalDate date1 = LocalDate.of(1946, 2, 18);
-        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", date1, address1);
+        AccountHolder accountHolder1 = new AccountHolder("Rebecca T. Carroll", "rebecca", "1234", date1, address1);
         accountHolderRepository.save(accountHolder1);
         CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE);
 
@@ -277,7 +277,7 @@ class AdminControllerTest {
 
     @Test
     void deleteThirdPartyUser() throws Exception {
-        Admin admin = new Admin("George L. Lucas");
+        Admin admin = new Admin("George L. Lucas", "george", "1234");
         adminRepository.save(admin);
         ThirdPartyUser thirdParty1 = new ThirdPartyUser("GF8754E", "Diana J. Cano", admin);
 

@@ -2,6 +2,10 @@ package com.ironhack.bankingSystem.repository;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.model.*;
+import com.ironhack.bankingSystem.model.security.Role;
+import com.ironhack.bankingSystem.model.security.User;
+import com.ironhack.bankingSystem.repository.security.UserRepository;
+import com.ironhack.bankingSystem.service.impl.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class PopulateDBTest {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     AdminRepository adminRepository;
@@ -52,35 +62,49 @@ class PopulateDBTest {
         accountHolderRepository.deleteAll();
         addressRepository.deleteAll();
         adminRepository.deleteAll();
+        userRepository.deleteAll();
 
-        Admin admin = new Admin("John Perez");
-        adminRepository.save(admin);
+        userService.saveRole(new Role(null, "ROLE_USER"));
+        userService.saveRole(new Role(null, "ROLE_ADMIN"));
+
+        Admin admin = new Admin("John Perez", "john", "1234");
+        userService.saveUser(admin);
+        userService.addRoleToUser("john", "ROLE_ADMIN");
 
         Address address1 = new Address("Lyndon Street", "609");
         addressRepository.save(address1);
         LocalDate date1 = LocalDate.of(1981, 7, 7);
-        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", date1, address1);
-        accountHolderRepository.save(accountHolder1);
+        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", "lisa", "1234", date1, address1);
+        userService.saveUser(accountHolder1);
+        userService.addRoleToUser("lisa", "ROLE_USER");
+
         Address address2 = new Address("Hickman Street", "4255");
         addressRepository.save(address2);
         LocalDate date2 = LocalDate.of(1945, 11, 20);
-        AccountHolder accountHolder2 = new AccountHolder("Michael G. Pearson", date2, address2);
-        accountHolderRepository.save(accountHolder2);
+        AccountHolder accountHolder2 = new AccountHolder("Michael G. Pearson", "michael", "1234", date2, address2);
+        userService.saveUser(accountHolder2);
+        userService.addRoleToUser("michael", "ROLE_USER");
+
         Address address3 = new Address("Graystone Lakes", "2664");
         addressRepository.save(address3);
         LocalDate date3 = LocalDate.of(2001, 8, 15);
-        AccountHolder accountHolder3 = new AccountHolder("Jennifer C. Lee", date3, address3);   //! under 24 yo
-        accountHolderRepository.save(accountHolder3);
+        AccountHolder accountHolder3 = new AccountHolder("Jennifer C. Lee", "jennifer", "1234", date3, address3);   //! under 24 yo
+        userService.saveUser(accountHolder3);
+        userService.addRoleToUser("jennifer", "ROLE_USER");
+
         Address address4 = new Address("Lyndon Street", "33");
         addressRepository.save(address4);
         LocalDate date4 = LocalDate.of(1941, 5, 8);
-        AccountHolder accountHolder4 = new AccountHolder("Dominic K. Watts", date4, address4);
-        accountHolderRepository.save(accountHolder4);
+        AccountHolder accountHolder4 = new AccountHolder("Dominic K. Watts", "dominic", "1234", date4, address4);
+        userService.saveUser(accountHolder4);
+        userService.addRoleToUser("dominic", "ROLE_USER");
+
         Address address5 = new Address("Worthington Drive", "248");
         addressRepository.save(address5);
         LocalDate date5 = LocalDate.of(2003, 2, 14);
-        AccountHolder accountHolder5 = new AccountHolder("Sarah F. Lopes", date5, address5);    //! under 24 yo
-        accountHolderRepository.save(accountHolder5);
+        AccountHolder accountHolder5 = new AccountHolder("Sarah F. Lopes", "sarah", "1234", date5, address5);    //! under 24 yo
+        userService.saveUser(accountHolder5);
+        userService.addRoleToUser("sarah", "ROLE_USER");
 
         ThirdPartyUser thirdParty1 = new ThirdPartyUser("KJ8754E", "Anthony L. Pattison", admin);
         thirdPartyUserrepository.save(thirdParty1);
@@ -114,16 +138,18 @@ class PopulateDBTest {
 
     @Test
     public void findAll_allEntities_AllTheLists() {
-        List<Admin> adminList = adminRepository.findAll();
-        List<AccountHolder> accountHolderList = accountHolderRepository.findAll();
+        //List<Admin> adminList = adminRepository.findAll();
+       // List<AccountHolder> accountHolderList = accountHolderRepository.findAll();
+        List<User> userList = userRepository.findAll();
         List<ThirdPartyUser> thirdPartyList = thirdPartyUserrepository.findAll();
         List<Checking> checkingList = checkingRepository.findAll();
         List<StudentChecking> studentCheckingList = studentCheckingRepository.findAll();
         List<Savings> savingsList = savingsRepository.findAll();
         List<CreditCard> creditCardList = creditCardRepository.findAll();
 
-        assertEquals(1, adminList.size());
-        assertEquals(5, accountHolderList.size());
+       // assertEquals(1, adminList.size());
+        //assertEquals(5, accountHolderList.size());
+        assertEquals(6, userList.size());
         assertEquals(2, thirdPartyList.size());
         assertEquals(2, checkingList.size());
         assertEquals(2, studentCheckingList.size());

@@ -35,8 +35,8 @@ class CheckingRepositoryTest {
     public void setUp() {
         Address address1 = new Address("Calle Falsa", "123");
         LocalDate date1 = LocalDate.of(1981, 7, 7);
-        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", date1, address1);
-        Admin admin = new Admin("Michael G. Pearson");
+        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", "lisa", "1234", date1, address1);
+        Admin admin = new Admin("Michael G. Pearson", "michael", "1234");
 
         BigDecimal amount = new BigDecimal(3000);
         Money balance = new Money(amount);

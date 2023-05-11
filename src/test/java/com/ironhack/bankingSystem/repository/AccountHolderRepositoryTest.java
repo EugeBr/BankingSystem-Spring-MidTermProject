@@ -31,10 +31,10 @@ class AccountHolderRepositoryTest {
         Address address2 = new Address("Calle Falsa", "321");
 
         LocalDate date1 = LocalDate.of(1981, 7, 7);
-        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", date1, address1);
+        AccountHolder accountHolder1 = new AccountHolder("Lisa J. Dudley", "lisa", "1234", date1, address1);
         accountHolderRepository.save(accountHolder1);
         LocalDate date2 = LocalDate.of(1945, 11, 20);
-        AccountHolder accountHolder2 = new AccountHolder("Michael G. Pearson", date2, address2);
+        AccountHolder accountHolder2 = new AccountHolder("Michael G. Pearson", "michael", "1234", date2, address2);
         accountHolderRepository.save(accountHolder2);
     }
 

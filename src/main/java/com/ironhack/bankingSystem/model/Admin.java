@@ -1,27 +1,24 @@
 package com.ironhack.bankingSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotEmpty;
+import com.ironhack.bankingSystem.model.security.Role;
+import com.ironhack.bankingSystem.model.security.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @NotEmpty
-    private String name;
+public class Admin extends User {
 
-    public Admin(String name) {
-        this.name = name;
+    public Admin(Long id, String name, String username, String password, Collection<Role> roles) {
+        super(id, name, username, password, roles);
     }
 
+    public Admin(String name, String username, String password) {
+        super(name, username, password);
+    }
 }

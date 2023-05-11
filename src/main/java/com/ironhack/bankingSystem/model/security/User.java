@@ -18,6 +18,7 @@ import static jakarta.persistence.FetchType.EAGER;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     /**
      * The unique identifier for the user
@@ -49,4 +50,9 @@ public class User {
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
+    public User(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
 }
