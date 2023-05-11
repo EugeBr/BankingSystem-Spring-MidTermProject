@@ -19,17 +19,9 @@ Admin can:
 
 ## 🛠️ APP STRUCTURE:
 
+![classDiagram](src/classDiagramMidTerm.png)
 
-
-
-
-
-*** ACA PONER DIAGRAMAS ***
-
-
-
-
-
+![useCase](src/useCaseMidTerm.png)
 
 ## 💻 HOW TO RUN THE APP 
 
