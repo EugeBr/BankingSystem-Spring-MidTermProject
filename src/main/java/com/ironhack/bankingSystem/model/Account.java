@@ -33,7 +33,12 @@ public abstract class Account {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "secondary_owner_id")
     private AccountHolder secondaryOwner;
-    private final BigDecimal PENALTY_FEE = new BigDecimal(40);
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))
+    })
+    private final Money PENALTY_FEE = new Money(new BigDecimal("40.00"));
     @PastOrPresent
     private LocalDate creationDate = LocalDate.now();
     @ManyToOne(cascade = CascadeType.MERGE)

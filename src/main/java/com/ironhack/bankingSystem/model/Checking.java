@@ -2,12 +2,8 @@ package com.ironhack.bankingSystem.model;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.model.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +23,14 @@ public class Checking extends Account{
     private final String TYPE = "CHECKING ACCOUNT";
     @NotEmpty(message = "SecretKey can't be empty")
     private String secretKey;
-    private final BigDecimal MINIMUM_BALANCE = new BigDecimal("250.00");
-    private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
+    @Embedded
+    private final Money MINIMUM_BALANCE = new Money(new BigDecimal("250.00"));
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "monthly_fee_amount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "monthly_fee_currency"))
+    })
+    private final Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12.0"));
     @PastOrPresent(message = "Date can't be in the future")
     private LocalDate lastMonthlyFeeDate = LocalDate.now();
 
@@ -45,7 +47,7 @@ public class Checking extends Account{
     //check if balance is lower that minimum balance
     @Override
     public void checkMinimumBalance() {
-        if(getMINIMUM_BALANCE().compareTo(getBalance().getAmount()) == 1) {
+        if(getMINIMUM_BALANCE().getAmount().compareTo(getBalance().getAmount()) == 1) {
             super.applyPenaltyFee();
         }
     }

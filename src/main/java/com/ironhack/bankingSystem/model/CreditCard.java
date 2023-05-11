@@ -2,10 +2,12 @@ package com.ironhack.bankingSystem.model;
 
 import com.ironhack.bankingSystem.classes.Money;
 import com.ironhack.bankingSystem.model.enums.Status;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +23,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CreditCard extends Account{
     private final String TYPE = "CREDIT CARD";
-    @DecimalMax(value = "100000", message = "Credit limit can't exceed US$ 100000")
+    @Max(value = 100000, message = "Credit limit can't exceed US$ 100000")
     private BigDecimal creditLimit = new BigDecimal(100);
     @DecimalMin(value = "0.1", message = "Interest rate can't be lower than 0.1")
     private Double interestRate = 0.2;

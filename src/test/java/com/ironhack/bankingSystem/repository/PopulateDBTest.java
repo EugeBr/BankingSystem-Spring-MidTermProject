@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.ironhack.bankingSystem.model.enums.Status.ACTIVE;
+import static com.ironhack.bankingSystem.model.enums.Status.FROZEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -100,7 +101,7 @@ class PopulateDBTest {
         savingsRepository.save(savings1);
         Savings savings2 = new Savings(new Money(new BigDecimal(15000)), accountHolder4, admin, ACTIVE, "FSJ665A");
         savingsRepository.save(savings2);
-        Savings savings3 = new Savings(new Money(new BigDecimal(34000)), accountHolder1, accountHolder2, admin, ACTIVE, "LFG888E");
+        Savings savings3 = new Savings(new Money(new BigDecimal(34000)), accountHolder1, accountHolder2, admin, FROZEN, "LFG888E");
         savingsRepository.save(savings3);
 
         CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(11500)), accountHolder1, admin, ACTIVE);
