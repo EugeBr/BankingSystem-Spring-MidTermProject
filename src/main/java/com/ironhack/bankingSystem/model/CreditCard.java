@@ -1,6 +1,7 @@
 package com.ironhack.bankingSystem.model;
 
 import com.ironhack.bankingSystem.classes.Money;
+import com.ironhack.bankingSystem.model.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.DecimalMax;
@@ -27,28 +28,28 @@ public class CreditCard extends Account{
     @PastOrPresent(message = "Last interest date can't be in the future")
     private LocalDate lastInterestDate = LocalDate.now();
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy) {
-        super(balance, primaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status) {
+        super(balance, primaryOwner, createdBy, status);
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, BigDecimal creditLimit) {
-        super(balance, primaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, BigDecimal creditLimit) {
+        super(balance, primaryOwner, createdBy, status);
         this.creditLimit = creditLimit;
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, Double interestRate) {
-        super(balance, primaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, Double interestRate) {
+        super(balance, primaryOwner, createdBy, status);
         this.interestRate = interestRate;
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, BigDecimal creditLimit, Double interestRate) {
-        super(balance, primaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, BigDecimal creditLimit, Double interestRate) {
+        super(balance, primaryOwner, createdBy, status);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, BigDecimal creditLimit) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, BigDecimal creditLimit) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.creditLimit = creditLimit;
     }
 
@@ -56,8 +57,8 @@ public class CreditCard extends Account{
         this.interestRate = interestRate;
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, BigDecimal creditLimit, Double interestRate) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, BigDecimal creditLimit, Double interestRate) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }
@@ -78,7 +79,8 @@ public class CreditCard extends Account{
     @Override
     public String toString() {
         return "CreditCard{" +
-                "creditLimit=" + creditLimit +
+                "TYPE='" + TYPE + '\'' +
+                ", creditLimit=" + creditLimit +
                 ", interestRate=" + interestRate +
                 ", lastInterestDate=" + lastInterestDate +
                 "} " + super.toString();

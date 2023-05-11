@@ -37,7 +37,7 @@ class SavingsRepositoryTest {
 
         BigDecimal amount = new BigDecimal(1000);
         Money balance = new Money(amount);
-        Savings savings = new Savings(balance, accountHolder1, admin, "YUT655D", ACTIVE);
+        Savings savings = new Savings(balance, accountHolder1, admin, ACTIVE, "YUT655D");
         savingsRepository.save(savings);
     }
 

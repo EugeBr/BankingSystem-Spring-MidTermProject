@@ -1,6 +1,7 @@
 package com.ironhack.bankingSystem.model;
 
 import com.ironhack.bankingSystem.classes.Money;
+import com.ironhack.bankingSystem.model.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -38,18 +39,23 @@ public abstract class Account {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin createdBy;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status can't be null")
+    private Status status;
 
-    public Account(Money balance, AccountHolder primaryOwner, Admin createdBy) {
+    public Account(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.createdBy = createdBy;
+        this.status = status;
     }
 
-    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.createdBy = createdBy;
+        this.status = status;
     }
 
     public void applyPenaltyFee() {
@@ -76,9 +82,10 @@ public abstract class Account {
                 ", balance=" + balance +
                 ", primaryOwner=" + primaryOwner +
                 ", secondaryOwner=" + secondaryOwner +
+                ", PENALTY_FEE=" + PENALTY_FEE +
                 ", creationDate=" + creationDate +
                 ", createdBy=" + createdBy.getName() +
+                ", status=" + status +
                 '}';
     }
-
 }

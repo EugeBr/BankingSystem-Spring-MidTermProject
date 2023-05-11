@@ -86,28 +86,28 @@ class PopulateDBTest {
         ThirdPartyUser thirdParty2 = new ThirdPartyUser("HG6588E", "Timothy D. Lopez", admin);
         thirdPartyUserrepository.save(thirdParty2);
 
-        Checking checking1 = new Checking(new Money(new BigDecimal(30000)), accountHolder1, admin, "YUT655D", ACTIVE);
+        Checking checking1 = new Checking(new Money(new BigDecimal(30000)), accountHolder1, admin, ACTIVE, "YUT655D");
         checkingRepository.save(checking1);
-        Checking checking2 = new Checking(new Money(new BigDecimal(10000)), accountHolder2, accountHolder1, admin, "JDY799K", ACTIVE);
+        Checking checking2 = new Checking(new Money(new BigDecimal(10000)), accountHolder2, accountHolder1, admin, ACTIVE, "JDY799K");
         checkingRepository.save(checking2);
 
-        StudentChecking studentChecking1 = new StudentChecking(new Money(new BigDecimal(1000)), accountHolder3, admin, "LAS746L", ACTIVE);
+        StudentChecking studentChecking1 = new StudentChecking(new Money(new BigDecimal(1000)), accountHolder3, admin, ACTIVE, "LAS746L");
         studentCheckingRepository.save(studentChecking1);
-        StudentChecking studentChecking2 = new StudentChecking(new Money(new BigDecimal(2300)), accountHolder5, admin, "EAW664C", ACTIVE);
+        StudentChecking studentChecking2 = new StudentChecking(new Money(new BigDecimal(2300)), accountHolder5, admin, ACTIVE, "EAW664C");
         studentCheckingRepository.save(studentChecking2);
 
-        Savings savings1 = new Savings(new Money(new BigDecimal(54000)), accountHolder2, admin, "OVJ476F", ACTIVE);
+        Savings savings1 = new Savings(new Money(new BigDecimal(54000)), accountHolder2, admin, ACTIVE, "OVJ476F");
         savingsRepository.save(savings1);
-        Savings savings2 = new Savings(new Money(new BigDecimal(15000)), accountHolder4, admin, "FSJ665A", ACTIVE);
+        Savings savings2 = new Savings(new Money(new BigDecimal(15000)), accountHolder4, admin, ACTIVE, "FSJ665A");
         savingsRepository.save(savings2);
-        Savings savings3 = new Savings(new Money(new BigDecimal(34000)), accountHolder1, accountHolder2, admin, "LFG888E", ACTIVE);
+        Savings savings3 = new Savings(new Money(new BigDecimal(34000)), accountHolder1, accountHolder2, admin, ACTIVE, "LFG888E");
         savingsRepository.save(savings3);
 
-        CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(11500)), accountHolder1, admin);
+        CreditCard creditCard1 = new CreditCard(new Money(new BigDecimal(11500)), accountHolder1, admin, ACTIVE);
         creditCardRepository.save(creditCard1);
-        CreditCard creditCard2 = new CreditCard(new Money(new BigDecimal(60000)), accountHolder2, admin);
+        CreditCard creditCard2 = new CreditCard(new Money(new BigDecimal(60000)), accountHolder2, admin, ACTIVE);
         creditCardRepository.save(creditCard2);
-        CreditCard creditCard3 = new CreditCard(new Money(new BigDecimal(28000)), accountHolder4, admin);
+        CreditCard creditCard3 = new CreditCard(new Money(new BigDecimal(28000)), accountHolder4, admin, ACTIVE);
         creditCardRepository.save(creditCard3);
     }
 

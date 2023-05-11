@@ -29,22 +29,17 @@ public class Checking extends Account{
     private String secretKey;
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal("250.00");
     private final BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12.0");
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Status can't be null")
-    private Status status;
     @PastOrPresent(message = "Date can't be in the future")
     private LocalDate lastMonthlyFeeDate = LocalDate.now();
 
-    public Checking(Money balance, AccountHolder primaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, createdBy);
+    public Checking(Money balance, AccountHolder primaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
-    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, String secretKey, Status status) {
-        super(balance, primaryOwner, secondaryOwner, createdBy);
+    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Admin createdBy, Status status, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner, createdBy, status);
         this.secretKey = secretKey;
-        this.status = status;
     }
 
     //check if balance is lower that minimum balance
@@ -71,8 +66,10 @@ public class Checking extends Account{
     @Override
     public String toString() {
         return "Checking{" +
-                "secretKey='" + secretKey + '\'' +
-                ", status=" + status +
+                "TYPE='" + TYPE + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                ", MINIMUM_BALANCE=" + MINIMUM_BALANCE +
+                ", MONTHLY_MAINTENANCE_FEE=" + MONTHLY_MAINTENANCE_FEE +
                 ", lastMonthlyFeeDate=" + lastMonthlyFeeDate +
                 "} " + super.toString();
     }

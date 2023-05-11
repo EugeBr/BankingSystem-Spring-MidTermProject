@@ -40,7 +40,7 @@ class CheckingRepositoryTest {
 
         BigDecimal amount = new BigDecimal(3000);
         Money balance = new Money(amount);
-        Checking checking = new Checking(balance, accountHolder1, admin, "YUT655D", ACTIVE);
+        Checking checking = new Checking(balance, accountHolder1, admin, ACTIVE, "YUT655D");
         checkingRepository.save(checking);
     }
 
