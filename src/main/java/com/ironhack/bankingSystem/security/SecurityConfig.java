@@ -77,10 +77,17 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         // set up authorization for different request matchers and user roles
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/api/login/**").permitAll()   //* any user can access without login
-                .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER")
+                .requestMatchers("/api/login/**").permitAll()
+                .requestMatchers(POST,"api/third-party-users/transfer/**").permitAll()
+                .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated());                         //* any other route needs login
+                .requestMatchers(GET, "/api/admins/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(POST, "/api/admins/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(PATCH, "/api/admins/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(DELETE, "/api/admins/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(GET, "/api/account-holders/**").hasAnyAuthority("ROLE_USER")
+                .requestMatchers(POST, "/api/account-holders/**").hasAnyAuthority("ROLE_USER")
+                .anyRequest().authenticated());
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
         // Add the custom authorization filter before the standard authentication filter.

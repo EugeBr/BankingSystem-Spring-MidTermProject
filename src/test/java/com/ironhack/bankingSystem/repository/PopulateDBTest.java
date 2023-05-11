@@ -29,12 +29,6 @@ class PopulateDBTest {
     UserRepository userRepository;
 
     @Autowired
-    AdminRepository adminRepository;
-
-    @Autowired
-    AccountHolderRepository accountHolderRepository;
-
-    @Autowired
     ThirdPartyUserRepository thirdPartyUserrepository;
 
     @Autowired
@@ -59,9 +53,7 @@ class PopulateDBTest {
         studentCheckingRepository.deleteAll();
         checkingRepository.deleteAll();
         thirdPartyUserrepository.deleteAll();
-        accountHolderRepository.deleteAll();
         addressRepository.deleteAll();
-        adminRepository.deleteAll();
         userRepository.deleteAll();
 
         userService.saveRole(new Role(null, "ROLE_USER"));
@@ -138,8 +130,6 @@ class PopulateDBTest {
 
     @Test
     public void findAll_allEntities_AllTheLists() {
-        //List<Admin> adminList = adminRepository.findAll();
-       // List<AccountHolder> accountHolderList = accountHolderRepository.findAll();
         List<User> userList = userRepository.findAll();
         List<ThirdPartyUser> thirdPartyList = thirdPartyUserrepository.findAll();
         List<Checking> checkingList = checkingRepository.findAll();
@@ -147,8 +137,6 @@ class PopulateDBTest {
         List<Savings> savingsList = savingsRepository.findAll();
         List<CreditCard> creditCardList = creditCardRepository.findAll();
 
-       // assertEquals(1, adminList.size());
-        //assertEquals(5, accountHolderList.size());
         assertEquals(6, userList.size());
         assertEquals(2, thirdPartyList.size());
         assertEquals(2, checkingList.size());
