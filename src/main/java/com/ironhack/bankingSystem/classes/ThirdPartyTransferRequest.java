@@ -1,6 +1,5 @@
 package com.ironhack.bankingSystem.classes;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ public class ThirdPartyTransferRequest {
     private BigDecimal amount;
     @NotNull(message = "Account ID can't be null")
     private Integer accountId;
-    @NotEmpty(message = "Secret Key can't be empty")
+    // secret key are optional, because credit card accounts don't have one, and there's really no use for them.
     private String secretKey;
 }
 

@@ -5,6 +5,7 @@ import com.ironhack.bankingSystem.classes.ThirdPartyTransferRequest;
 import com.ironhack.bankingSystem.classes.TransferRequest;
 import com.ironhack.bankingSystem.classes.ResponseMessage;
 import com.ironhack.bankingSystem.model.*;
+import com.ironhack.bankingSystem.model.enums.Status;
 import com.ironhack.bankingSystem.repository.*;
 import com.ironhack.bankingSystem.service.interfaces.IAccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ironhack.bankingSystem.model.enums.Status.FROZEN;
 
 @Service
 public class AccountHolderService implements IAccountHolderService {
@@ -99,10 +102,14 @@ public class AccountHolderService implements IAccountHolderService {
         Optional<Account> recipientsAccount = accountRepository.findById(transferRequest.getRecipientAccountId());
         if (sendersAccount.isEmpty() || !accountList.contains(sendersAccount.get())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + transferRequest.getAccountId() + " doesn't exist or belongs to another user");
-        } else if (sendersAccount.get().getBalance().getAmount().compareTo(transferRequest.getAmount()) < 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account" + transferRequest.getAccountId() + " doesn't have sufficient funds for this transaction");
-        } else if (recipientsAccount.isEmpty()) {
+        }else if (recipientsAccount.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipient account " + transferRequest.getRecipientAccountId() + " not found");
+        }else if(sendersAccount.get().getStatus() == FROZEN){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account " + transferRequest.getAccountId() + " is FROZEN");
+        }else if(recipientsAccount.get().getStatus() == FROZEN){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Recipient account " + transferRequest.getRecipientAccountId() + " is FROZEN");
+        }else if (sendersAccount.get().getBalance().getAmount().compareTo(transferRequest.getAmount()) < 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account " + transferRequest.getAccountId() + " doesn't have sufficient funds for this transaction");
         }
         Money newSendersBalance = new Money(sendersAccount.get().getBalance().decreaseAmount(transferRequest.getAmount()));
         sendersAccount.get().setBalance(newSendersBalance);
@@ -123,8 +130,10 @@ public class AccountHolderService implements IAccountHolderService {
         Optional<ThirdPartyUser> recipientsAccount = thirdPartyUserRepository.findById(hashedKey);
         if (sendersAccount.isEmpty() || !accountList.contains(sendersAccount.get())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + thirdPartyTransferRequest.getAccountId() + " doesn't exist or belongs to another user");
-        } else if (sendersAccount.get().getBalance().getAmount().compareTo(thirdPartyTransferRequest.getAmount()) < 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account" + thirdPartyTransferRequest.getAccountId() + " doesn't have sufficient funds for this transaction");
+        }else if(sendersAccount.get().getStatus() == FROZEN){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account " + thirdPartyTransferRequest.getAccountId() + " is FROZEN");
+        }else if (sendersAccount.get().getBalance().getAmount().compareTo(thirdPartyTransferRequest.getAmount()) < 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account " + thirdPartyTransferRequest.getAccountId() + " doesn't have sufficient funds for this transaction");
         }else if (recipientsAccount.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party user " + hashedKey + " not found");
         }

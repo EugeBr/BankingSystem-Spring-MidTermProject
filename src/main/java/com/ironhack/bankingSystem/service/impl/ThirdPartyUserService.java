@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+import static com.ironhack.bankingSystem.model.enums.Status.FROZEN;
+
 @Service
 public class ThirdPartyUserService implements IThirdPartyUserService {
 
@@ -29,8 +31,10 @@ public class ThirdPartyUserService implements IThirdPartyUserService {
         Optional<ThirdPartyUser> sendersAccount = thirdPartyUserRepository.findById(hashedKey);
         if (sendersAccount.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party user " + hashedKey + " not found");
-        } else if (recipientsAccount.isEmpty()) {
+        }else if (recipientsAccount.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account " + thirdPartyTransferRequest.getAccountId() + " not found");
+        }else if(recipientsAccount.get().getStatus() == FROZEN){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Recipient account " + thirdPartyTransferRequest.getAccountId() + " is FROZEN");
         }
         Money newRecipientBalance = new Money(recipientsAccount.get().getBalance().increaseAmount(thirdPartyTransferRequest.getAmount()));
         recipientsAccount.get().setBalance(newRecipientBalance);
