@@ -56,7 +56,7 @@ The Banking System is implemented using various technologies that enable its dev
 
 ## THANK YOU FOR BANKING WITH US
 
-![gif](https://media.giphy.com/media/BA28qGhNLSZ6U/giphy.gif)]
+![gif](https://media.giphy.com/media/BA28qGhNLSZ6U/giphy.gif)
 
 ## 👥 LINKS:
 - TRELLO LINK : https://trello.com/b/j1OkHjuL/midterm-project
